@@ -11,18 +11,21 @@ This is a simple web application that generates and displays 6 random lottery nu
 *   Displays the numbers in a visually appealing way.
 *   A button to generate new numbers.
 
-## Current Task: Add Dark/Light Mode
+## Current Task: Add Dinner Menu Recommendation
 
 ### Plan
 
 1.  **`index.html`**:
-    *   Add a theme toggle button to the top-right corner of the container or the body.
+    *   Add a new section `<div class="dinner-container">` below the lotto section.
+    *   Add a heading "What's for Dinner?" and a display area for the recommendation.
+    *   Add a "Recommend" button.
 2.  **`style.css`**:
-    *   Define CSS variables for colors (background, text, container background, etc.) in `:root` for light mode and a `[data-theme="dark"]` selector for dark mode.
-    *   Update existing styles to use these variables.
-    *   Style the theme toggle button.
+    *   Style the dinner recommendation section to be visually distinct but consistent with the theme.
+    *   Ensure responsiveness and proper spacing.
 3.  **`main.js`**:
-    *   Implement logic to toggle the `data-theme` attribute on the `<html>` or `<body>` element.
-    *   Save the user's theme preference in `localStorage`.
-    *   Initialize the theme based on the saved preference or the system's preferred color scheme.
+    *   Create an array of dinner menu items (e.g., Kimchi Stew, Pasta, Sushi, etc.).
+    *   Implement a function to pick a random item from the list.
+    *   Add an event listener to the "Recommend" button.
+4.  **Deployment**:
+    *   Commit changes and push to GitHub using the PAT.
 

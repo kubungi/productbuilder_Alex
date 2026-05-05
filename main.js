@@ -43,3 +43,37 @@ generateBtn.addEventListener('click', handleGenerate);
 
 // Initial generation
 handleGenerate();
+
+// Dinner Recommendation Logic
+const dinnerBtn = document.querySelector('#dinner-btn');
+const dinnerResult = document.querySelector('#dinner-result');
+
+const dinnerMenus = [
+    "Kimchi Stew (김치찌개) 🥘",
+    "Korean Fried Chicken 🍗",
+    "Bibimbap 🥗",
+    "Pasta 🍝",
+    "Sushi 🍣",
+    "Pizza 🍕",
+    "Tacos 🌮",
+    "Steak 🥩",
+    "Ramen 🍜",
+    "Bulgogi 🥢",
+    "Salad 🥗",
+    "Burgers 🍔",
+    "Jajangmyeon 🍜",
+    "Samgyeopsal 🥓",
+    "Donkatsu 🍛"
+];
+
+function recommendDinner() {
+    dinnerResult.style.opacity = 0;
+    setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * dinnerMenus.length);
+        dinnerResult.textContent = dinnerMenus[randomIndex];
+        dinnerResult.style.opacity = 1;
+    }, 200);
+}
+
+dinnerBtn.addEventListener('click', recommendDinner);
+dinnerResult.style.transition = 'opacity 0.2s ease';
