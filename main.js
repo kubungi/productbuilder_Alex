@@ -1,6 +1,20 @@
 const lottoNumbersContainer = document.querySelector('.lotto-numbers');
 const generateBtn = document.querySelector('#generate-btn');
+const themeToggle = document.querySelector('#theme-toggle');
 
+// Theme Logic
+const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+function toggleTheme() {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+}
+
+themeToggle.addEventListener('click', toggleTheme);
+
+// Lotto Logic
 function generateNumbers() {
     const numbers = new Set();
     while (numbers.size < 6) {
@@ -24,7 +38,6 @@ function handleGenerate() {
     const numbers = generateNumbers();
     displayNumbers(numbers);
 }
-
 
 generateBtn.addEventListener('click', handleGenerate);
 

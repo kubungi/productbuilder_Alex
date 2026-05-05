@@ -11,19 +11,18 @@ This is a simple web application that generates and displays 6 random lottery nu
 *   Displays the numbers in a visually appealing way.
 *   A button to generate new numbers.
 
-## Current Task
+## Current Task: Add Dark/Light Mode
 
 ### Plan
 
 1.  **`index.html`**:
-    *   Update the title and heading to "Lotto Number Generator".
-    *   Create a main container for the application.
-    *   Add a section to display the generated numbers.
-    *   Add a button to trigger the number generation.
+    *   Add a theme toggle button to the top-right corner of the container or the body.
 2.  **`style.css`**:
-    *   Style the main container, number display, and button.
-    *   Use a modern and visually appealing design with a clean layout, good spacing, and a clear font.
+    *   Define CSS variables for colors (background, text, container background, etc.) in `:root` for light mode and a `[data-theme="dark"]` selector for dark mode.
+    *   Update existing styles to use these variables.
+    *   Style the theme toggle button.
 3.  **`main.js`**:
-    *   Implement the `generateNumbers` function to create an array of 6 unique random numbers from 1 to 45.
-    *   Implement the `displayNumbers` function to render the numbers in the HTML.
-    *   Add an event listener to the "Generate" button to call the functions.
+    *   Implement logic to toggle the `data-theme` attribute on the `<html>` or `<body>` element.
+    *   Save the user's theme preference in `localStorage`.
+    *   Initialize the theme based on the saved preference or the system's preferred color scheme.
+
