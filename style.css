@@ -1,234 +1,237 @@
-:root {
-    --bg-color: #f0f2f5;
-    --container-bg: white;
-    --text-color: #333;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --btn-bg: #007bff;
-    --btn-hover-bg: #0056b3;
-    --lotto-ball-bg: #4CAF50;
-    --lotto-ball-text: white;
+@layer base, components, utilities;
+
+@layer base {
+    :root {
+        /* Light Mode Palette (White Mode) */
+        --bg-color: oklch(97% 0.01 256);
+        --container-bg: oklch(100% 0 0);
+        --text-color: oklch(20% 0.02 256);
+        --accent-color: oklch(60% 0.15 250);
+        --accent-hover: oklch(50% 0.15 250);
+        --shadow-color: oklch(0% 0 0 / 10%);
+        --divider-color: oklch(90% 0.01 256);
+        --lotto-ball-bg: oklch(70% 0.15 140);
+        --lotto-ball-text: oklch(100% 0 0);
+        --input-bg: oklch(98% 0.01 256);
+    }
+
+    [data-theme="dark"] {
+        /* Dark Mode Palette */
+        --bg-color: oklch(15% 0.02 256);
+        --container-bg: oklch(20% 0.03 256);
+        --text-color: oklch(90% 0.01 256);
+        --accent-color: oklch(70% 0.15 250);
+        --accent-hover: oklch(80% 0.15 250);
+        --shadow-color: oklch(0% 0 0 / 50%);
+        --divider-color: oklch(30% 0.03 256);
+        --lotto-ball-bg: oklch(75% 0.15 180);
+        --lotto-ball-text: oklch(15% 0.02 256);
+        --input-bg: oklch(25% 0.03 256);
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        background-image: radial-gradient(var(--shadow-color) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
 }
 
-[data-theme="dark"] {
-    --bg-color: #121212;
-    --container-bg: #1e1e1e;
-    --text-color: #e0e0e0;
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --btn-bg: #3700b3;
-    --btn-hover-bg: #6200ee;
-    --lotto-ball-bg: #03dac6;
-    --lotto-ball-text: #000;
-}
+@layer components {
+    .container {
+        max-width: 500px;
+        width: 90%;
+        margin: 40px auto;
+        padding: 40px;
+        background-color: var(--container-bg);
+        border-radius: 24px;
+        box-shadow: 0 20px 40px var(--shadow-color);
+        position: relative;
+        transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        text-align: center;
+    }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+    .header-controls {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+    }
 
-.container {
-    text-align: center;
-    background-color: var(--container-bg);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px var(--shadow-color);
-    position: relative;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+    .control-btn {
+        background: var(--input-bg);
+        border: 1px solid var(--divider-color);
+        border-radius: 12px;
+        cursor: pointer;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-color);
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px var(--shadow-color);
+    }
 
-#theme-toggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: var(--text-color);
-    padding: 5px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-}
+    .control-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px var(--accent-color);
+    }
 
-#theme-toggle:hover {
-    background-color: var(--shadow-color);
-}
+    .theme-toggle svg {
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-h1 {
-    margin-bottom: 30px;
-    color: var(--text-color);
-}
+    [data-theme="dark"] .sun-icon { display: block; }
+    [data-theme="dark"] .moon-icon { display: none; }
+    [data-theme="light"] .sun-icon { display: none; }
+    [data-theme="light"] .moon-icon { display: block; }
 
-.lotto-numbers {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 30px;
-}
+    /* For initial load before main.js sets attribute */
+    .sun-icon, .moon-icon { display: none; }
+    [data-theme] .sun-icon, [data-theme] .moon-icon { display: none; }
+    [data-theme="dark"] .sun-icon { display: block; }
+    [data-theme="light"] .moon-icon { display: block; }
 
-.lotto-number {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: var(--lotto-ball-bg);
-    color: var(--lotto-ball-text);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px var(--shadow-color);
-}
 
-#generate-btn {
-    padding: 15px 30px;
-    border: none;
-    background-color: var(--btn-bg);
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-}
+    h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 32px;
+        letter-spacing: -0.02em;
+    }
 
-#generate-btn:hover {
-    background-color: var(--btn-hover-bg);
-}
+    .lotto-numbers {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+    }
 
-#generate-btn:active {
-    transform: scale(0.98);
-}
+    .lotto-number {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: var(--lotto-ball-bg);
+        color: var(--lotto-ball-text);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.25rem;
+        font-weight: 700;
+        box-shadow: 0 4px 8px var(--shadow-color);
+        animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
 
-.divider {
-    margin: 40px 0;
-    border: none;
-    border-top: 1px solid var(--shadow-color);
-}
+    @keyframes popIn {
+        from { transform: scale(0); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
 
-.dinner-section h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
+    #generate-btn, #dinner-btn, #submit-btn {
+        width: 100%;
+        padding: 16px 32px;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: var(--accent-color);
+        color: white;
+        box-shadow: 0 4px 14px var(--shadow-color);
+    }
 
-.dinner-result {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 25px;
-    padding: 15px;
-    background-color: var(--bg-color);
-    border-radius: 8px;
-    min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    transition: background-color 0.3s ease;
-}
+    #generate-btn:hover, #dinner-btn:hover, #submit-btn:hover {
+        background-color: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px var(--shadow-color), 0 0 15px var(--accent-color);
+    }
 
-.dinner-image {
-    width: 100%;
-    max-width: 300px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px var(--shadow-color);
-}
+    #dinner-btn {
+        background-color: transparent;
+        border: 2px solid var(--accent-color);
+        color: var(--accent-color);
+    }
 
-#dinner-btn {
-    padding: 12px 24px;
-    border: 2px solid var(--btn-bg);
-    background-color: transparent;
-    color: var(--btn-bg);
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
+    #dinner-btn:hover {
+        background-color: var(--accent-color);
+        color: white;
+    }
 
-#dinner-btn:hover {
-    background-color: var(--btn-bg);
-    color: white;
-}
+    .divider {
+        margin: 48px 0;
+        border: none;
+        border-top: 2px solid var(--divider-color);
+    }
 
-.contact-section {
-    text-align: left;
-}
+    .dinner-result {
+        background-color: var(--input-bg);
+        border-radius: 18px;
+        padding: 24px;
+        margin-bottom: 24px;
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
 
-.contact-section h2 {
-    text-align: center;
-    margin-bottom: 25px;
-}
+    .dinner-image {
+        width: 100%;
+        max-width: 280px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px var(--shadow-color);
+    }
 
-.form-group {
-    margin-bottom: 20px;
-}
+    .contact-section {
+        text-align: left;
+    }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--text-color);
-}
+    .form-group {
+        margin-bottom: 24px;
+    }
 
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--shadow-color);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.8;
+    }
 
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--btn-bg);
-}
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid var(--divider-color);
+        background-color: var(--input-bg);
+        color: var(--text-color);
+        border-radius: 10px;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+    }
 
-.form-group textarea {
-    height: 120px;
-    resize: vertical;
-}
-
-#submit-btn {
-    width: 100%;
-    padding: 15px;
-    background-color: var(--btn-bg);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#submit-btn:hover {
-    background-color: var(--btn-hover-bg);
-}
-
-#form-status {
-    margin-top: 20px;
-    text-align: center;
-    font-weight: 600;
-}
-
-#form-status.success {
-    color: #4CAF50;
-}
-
-#form-status.error {
-    color: #f44336;
+    .form-group input:focus, .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 4px var(--shadow-color);
+    }
 }

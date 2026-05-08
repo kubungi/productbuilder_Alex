@@ -1,31 +1,40 @@
 
-# Lotto Number Generator
+# Lotto Number Generator & Dinner Recommender
 
 ## Overview
 
-This is a simple web application that generates and displays 6 random lottery numbers between 1 and 45.
+This is a modern web application that provides fun utilities: a lotto number generator and a dinner menu recommender. It features a clean, responsive design with dark/light mode and multi-language support (English/Korean).
 
 ## Features
 
-*   Generates 6 unique random numbers.
-*   Displays the numbers in a visually appealing way.
-*   A button to generate new numbers.
+*   **Lotto Generator**: Generates 6 unique random numbers (1-45) with a clean visual display.
+*   **Dinner Recommender**: Provides random dinner suggestions with appetizing images.
+*   **Partnership Form**: A contact form for business inquiries.
+*   **Theme Switching**: Support for Dark and Light (White) modes with persistent settings.
+*   **Multi-language Support**: Toggle between English and Korean for all site content.
 
-## Current Task: Add Dinner Menu Recommendation
+## Current Task: Add Multi-language Support (EN/KO)
+
+The goal is to implement a global language selection feature that translates all UI elements and dynamic content.
 
 ### Plan
 
 1.  **`index.html`**:
-    *   Add a new section `<div class="dinner-container">` below the lotto section.
-    *   Add a heading "What's for Dinner?" and a display area for the recommendation.
-    *   Add a "Recommend" button.
+    *   Add a language selector in the header (next to the theme toggle).
+    *   Add `data-i18n` attributes to all translatable elements for easy selection in JS.
+
 2.  **`style.css`**:
-    *   Style the dinner recommendation section to be visually distinct but consistent with the theme.
-    *   Ensure responsiveness and proper spacing.
+    *   Style the language selector to be consistent with the theme toggle.
+    *   Ensure layout remains stable when text lengths change between languages.
+
 3.  **`main.js`**:
-    *   Create an array of dinner menu items (e.g., Kimchi Stew, Pasta, Sushi, etc.).
-    *   Implement a function to pick a random item from the list.
-    *   Add an event listener to the "Recommend" button.
+    *   Create a `translations` object containing all EN and KO strings.
+    *   Implement `updateLanguage()` to iterate over `data-i18n` elements and update their text.
+    *   Update dynamic content logic (lotto, dinner, form messages) to respect the current language.
+    *   Persist language choice in `localStorage`.
+
 4.  **Deployment**:
-    *   Commit changes and push to GitHub using the PAT.
+    *   Verify all features work in both languages.
+    *   Commit all changes.
+    *   Push to the remote GitHub repository.
 
