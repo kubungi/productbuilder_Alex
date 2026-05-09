@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kubungi.github.io/productbuilder_Alex/sitemap.xml

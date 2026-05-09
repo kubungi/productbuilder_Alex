@@ -6,7 +6,7 @@ const langToggle = document.querySelector('#lang-toggle');
 // Translations
 const translations = {
     en: {
-        page_title: "Lotto Number Generator",
+        page_title: "Lotto Number Generator & Dinner Recommender",
         main_heading: "Lotto Number Generator",
         generate_btn: "Generate Numbers",
         dinner_heading: "What's for Dinner? 🍕",
@@ -23,10 +23,17 @@ const translations = {
         status_sending: "Sending...",
         status_success: "Success! Your inquiry has been sent. 🚀",
         status_error: "Oops! There was a problem. Please try again.",
-        status_conn_error: "Oops! There was a problem connecting to the server."
+        status_conn_error: "Oops! There was a problem connecting to the server.",
+        // SEO Translations
+        description: "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life.",
+        keywords: "lotto, lotto generator, dinner recommendation, what to eat, random numbers",
+        "og:title": "Lotto Number Generator & Dinner Recommender",
+        "og:description": "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life.",
+        "twitter:title": "Lotto Number Generator & Dinner Recommender",
+        "twitter:description": "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life."
     },
     ko: {
-        page_title: "로또 번호 생성기",
+        page_title: "로또 번호 생성기 & 오늘 뭐 먹지",
         main_heading: "로또 번호 생성기",
         generate_btn: "번호 생성하기",
         dinner_heading: "오늘 뭐 먹지? 🍕",
@@ -43,7 +50,14 @@ const translations = {
         status_sending: "보내는 중...",
         status_success: "성공! 문의가 전송되었습니다. 🚀",
         status_error: "오류가 발생했습니다. 다시 시도해주세요.",
-        status_conn_error: "서버 연결에 문제가 발생했습니다."
+        status_conn_error: "서버 연결에 문제가 발생했습니다.",
+        // SEO Translations
+        description: "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다.",
+        keywords: "로또, 로또 번호 생성기, 오늘 뭐 먹지, 메뉴 추천, 랜덤 번호",
+        "og:title": "로또 번호 생성기 & 오늘 뭐 먹지",
+        "og:description": "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다.",
+        "twitter:title": "로또 번호 생성기 & 오늘 뭐 먹지",
+        "twitter:description": "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다."
     }
 };
 
@@ -51,14 +65,30 @@ const translations = {
 let currentLang = localStorage.getItem('lang') || 'en';
 
 const updateLanguage = () => {
+    // Update Text Content
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         el.textContent = translations[currentLang][key];
     });
+
+    // Update Placeholders
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
         el.placeholder = translations[currentLang][key];
     });
+
+    // Update Meta Tags
+    document.querySelectorAll('[data-i18n-meta]').forEach(el => {
+        const key = el.getAttribute('data-i18n-meta');
+        const content = translations[currentLang][key];
+        if (el.tagName === 'META') {
+            el.setAttribute('content', content);
+        }
+    });
+
+    // Special case for Title
+    document.title = translations[currentLang].page_title;
+
     langToggle.textContent = currentLang === 'en' ? 'KO' : 'EN';
     document.documentElement.lang = currentLang;
     localStorage.setItem('lang', currentLang);
