@@ -14,27 +14,22 @@ This is a modern web application that provides fun utilities: a lotto number gen
 *   **Multi-language Support**: Toggle between English and Korean for all site content.
 *   **Google Analytics**: Integrated gtag.js for site traffic analysis.
 *   **Microsoft Clarity**: Integrated for user behavior tracking and heatmaps.
+*   **Favicon**: Custom favicon implemented for better branding and browser recognition.
 
-## Current Task: Add Microsoft Clarity Tag
+## Current Task: Add Favicon and Deploy
 
-The goal is to integrate the Microsoft Clarity script for advanced user behavior analysis.
+The goal was to reflect the newly added `favicon.ico` in the application and deploy the latest version.
 
 ### Plan
 
 1.  **index.html**:
-    *   Insert the Microsoft Clarity script into the head section.
+    *   Add the `<link rel="icon" href="favicon.ico" type="image/x-icon">` tag to the head.
 
-2.  **style.css**:
-    *   Style the language selector to be consistent with the theme toggle.
-    *   Ensure layout remains stable when text lengths change between languages.
+2.  **blueprint.md**:
+    *   Update the documentation to include the favicon feature.
+    *   Update the current task and plan sections.
 
-3.  **main.js**:
-    *   Create a translations object containing all EN and KO strings.
-    *   Implement updateLanguage() to iterate over data-i18n elements and update their text.
-    *   Update dynamic content logic (lotto, dinner, form messages) to respect the current language.
-    *   Persist language choice in localStorage.
-
-4.  **Deployment**:
-    *   Verify all features work in both languages.
-    *   Commit all changes.
-    *   Push to the remote GitHub repository.
+3.  **Deployment**:
+    *   Verify the favicon is correctly linked.
+    *   Commit all changes with a descriptive message.
+    *   Push to the remote GitHub repository to trigger deployment (GitHub Pages).
