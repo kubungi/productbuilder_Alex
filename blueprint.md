@@ -20,7 +20,8 @@ This is a modern web application that provides fun utilities: a lotto number gen
     *   Semantic HTML5 structure.
     *   Canonical URL.
     *   Structured Data (JSON-LD) for rich results.
-    *   `robots.txt` and `sitemap.xml` for search engine crawlers.
+    *   Enhanced `robots.txt` with specific crawler rules and security-focused disallows.
+    *   `sitemap.xml` for search engine crawlers.
 
 ## Current Task: SEO Optimization
 

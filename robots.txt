@@ -1,4 +1,22 @@
-User-agent: *
+# Specific rules for major search engine crawlers
+User-agent: Googlebot
 Allow: /
 
+User-agent: Yeti
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: *
+Allow: /
+# Disallow development and metadata files from indexing
+Disallow: /GEMINI.md
+Disallow: /README.md
+Disallow: /blueprint.md
+Disallow: /test.css
+Disallow: /.idx/
+Disallow: /.vscode/
+
+# Host and Sitemap
 Sitemap: https://kubungi.github.io/productbuilder_Alex/sitemap.xml
