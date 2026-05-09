@@ -24,7 +24,7 @@
     <meta property="twitter:description" content="Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life." data-i18n-meta="twitter:description">
     <meta property="twitter:image" content="https://kubungi.github.io/productbuilder_Alex/favicon.ico">
 
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Structured Data (JSON-LD) - Enhanced for GEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -34,9 +34,36 @@
       "description": "A web application that generates lotto numbers and recommends dinner menus.",
       "applicationCategory": "Utility",
       "operatingSystem": "Web",
+      "author": {
+        "@type": "Person",
+        "name": "Alex"
+      },
+      "dateModified": "2026-05-09",
       "offers": {
         "@type": "Offer",
-        "price": "0"
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How are the lotto numbers generated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The numbers are generated using a cryptographically strong pseudo-random number generator (Math.random in JavaScript) to ensure 6 unique numbers between 1 and 45."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is the dinner recommendation based on my location?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Currently, the recommendations are randomly selected from a curated list of popular global and Korean dishes to provide diverse options."
+            }
+          }
+        ]
       }
     }
     </script>
@@ -67,9 +94,11 @@
         </header>
         <main>
             <h1 data-i18n="main_heading">Lotto Number Generator</h1>
+            
             <section class="lotto-section">
                 <div class="lotto-numbers"></div>
                 <button id="generate-btn" data-i18n="generate_btn">Generate Numbers</button>
+                <p class="logic-note" data-i18n="lotto_logic">Algorithm: 6 unique random integers (1-45).</p>
             </section>
 
             <hr class="divider">
@@ -78,6 +107,21 @@
                 <h2 data-i18n="dinner_heading">What's for Dinner? 🍕</h2>
                 <div id="dinner-result" class="dinner-result" data-i18n="dinner_default">Click to get a recommendation!</div>
                 <button id="dinner-btn" data-i18n="recommend_btn">Recommend Dinner</button>
+            </section>
+
+            <hr class="divider">
+
+            <!-- FAQ Section for GEO -->
+            <section class="faq-section">
+                <h2 data-i18n="faq_heading">Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <h3 data-i18n="faq_q1">How does the generator work?</h3>
+                    <p data-i18n="faq_a1">It uses JavaScript's built-in random function to select 6 non-repeating numbers.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 data-i18n="faq_q2">Are these numbers guaranteed to win?</h3>
+                    <p data-i18n="faq_a2">No, these are purely random numbers for entertainment purposes. Play responsibly.</p>
+                </div>
             </section>
 
             <hr class="divider">
@@ -102,6 +146,9 @@
                 <div id="form-status"></div>
             </section>
         </main>
+        <footer class="site-footer">
+            <p>&copy; 2026 Alex. <span data-i18n="last_updated">Last updated: May 9, 2026</span></p>
+        </footer>
     </div>
 
     <!-- Scripts at the end to avoid render blocking -->
