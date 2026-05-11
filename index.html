@@ -74,6 +74,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- HLS.js for M3U8 streaming support -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
     <!-- Google tag (gtag.js) - Moved and deferred -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9W5F4CJNRZ"></script>
     <script>
@@ -93,7 +96,32 @@
             </button>
         </header>
         <main>
-            <h1 data-i18n="main_heading">Lotto Number Generator</h1>
+            <section class="radio-section">
+                <h1 data-i18n="radio_heading">Korean Internet Radio 📻</h1>
+                <div class="radio-player-container">
+                    <div class="now-playing">
+                        <span data-i18n="now_playing_label">Now Playing:</span>
+                        <span id="current-station" data-i18n="select_station">Select a station</span>
+                    </div>
+                    <div class="player-controls">
+                        <button id="play-pause-btn" class="player-btn" aria-label="Play/Pause" disabled>
+                            <svg class="play-icon" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24" width="24" height="24" style="display:none;"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                        </button>
+                        <div class="volume-container">
+                            <svg viewBox="0 0 24 24" width="20" height="20" class="volume-icon"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+                        </div>
+                    </div>
+                    <div class="station-grid" id="station-grid">
+                        <!-- Stations will be injected by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <h2 data-i18n="main_heading">Lotto Number Generator</h2>
             
             <section class="lotto-section">
                 <div class="lotto-numbers"></div>
@@ -147,7 +175,7 @@
             </section>
         </main>
         <footer class="site-footer">
-            <p>&copy; 2026 Alex. <span data-i18n="last_updated">Last updated: May 9, 2026</span></p>
+            <p>&copy; 2026 Alex. <span data-i18n="last_updated">Last updated: May 10, 2026</span></p>
         </footer>
     </div>
 

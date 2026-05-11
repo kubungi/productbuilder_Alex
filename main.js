@@ -3,6 +3,32 @@ const generateBtn = document.querySelector('#generate-btn');
 const themeToggle = document.querySelector('#theme-toggle');
 const langToggle = document.querySelector('#lang-toggle');
 
+// Radio Player Variables
+const stationGrid = document.querySelector('#station-grid');
+const playPauseBtn = document.querySelector('#play-pause-btn');
+const volumeSlider = document.querySelector('#volume-slider');
+const currentStationDisplay = document.querySelector('#current-station');
+const playIcon = playPauseBtn ? playPauseBtn.querySelector('.play-icon') : null;
+const pauseIcon = playPauseBtn ? playPauseBtn.querySelector('.pause-icon') : null;
+
+const radioStations = [
+    { id: 'mbcfm4u', name: { en: "MBC FM4U", ko: "MBC FM4U" }, url: "http://serpent0.duckdns.org:8088/mbcfm.pls", api: "https://control.imbc.com/Schedule/Radio?channel=mfm", type: 'mbc' },
+    { id: 'mbcsfm', name: { en: "MBC Standard FM", ko: "MBC 표준FM" }, url: "http://serpent0.duckdns.org:8088/mbcsfm.pls", api: "https://control.imbc.com/Schedule/Radio?channel=sfm", type: 'mbc' },
+    { id: 'sbspower', name: { en: "SBS Power FM", ko: "SBS 파워FM" }, url: "http://serpent0.duckdns.org:8088/sbsfm.pls", type: 'sbs' },
+    { id: 'sbslove', name: { en: "SBS Love FM", ko: "SBS 러브FM" }, url: "http://serpent0.duckdns.org:8088/sbs2fm.pls", type: 'sbs' },
+    { id: 'kbscool', name: { en: "KBS Cool FM", ko: "KBS 쿨FM" }, url: "https://kbshls-i.akamaihd.net/hls/live/587881/2fm/playlist.m3u8", type: 'kbs' },
+    { id: 'kbs1fm', name: { en: "KBS Classic FM", ko: "KBS 클래식FM" }, url: "https://kbshls-i.akamaihd.net/hls/live/587879/1fm/playlist.m3u8", type: 'kbs' },
+    { id: 'cbs', name: { en: "CBS Music FM", ko: "CBS 음악FM" }, url: "https://m-aac.cbs.co.kr/mweb_cbs939/_definst_/cbs939.stream/playlist.m3u8" },
+    { id: 'ebs', name: { en: "EBS FM", ko: "EBS FM" }, url: "https://ebsonair.ebs.co.kr/fmradiofamilypc/familypc1m/playlist.m3u8" },
+    { id: 'ytn', name: { en: "YTN Radio", ko: "YTN 라디오" }, url: "https://radiolive.ytn.co.kr/radio/_definst_/20211118_fmlive/playlist.m3u8" }
+];
+
+let hls = null;
+let audio = new Audio();
+let isPlaying = false;
+let activeStationId = null;
+let metadataInterval = null;
+
 // Translations
 const translations = {
     en: {
@@ -30,8 +56,10 @@ const translations = {
         status_success: "Success! Your inquiry has been sent. 🚀",
         status_error: "Oops! There was a problem. Please try again.",
         status_conn_error: "Oops! There was a problem connecting to the server.",
-        last_updated: "Last updated: May 9, 2026",
-        // SEO Translations
+        last_updated: "Last updated: May 10, 2026",
+        radio_heading: "Korean Internet Radio 📻",
+        now_playing_label: "Now Playing:",
+        select_station: "Select a station",
         description: "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life.",
         keywords: "lotto, lotto generator, dinner recommendation, what to eat, random numbers",
         "og:title": "Lotto Number Generator & Dinner Recommender",
@@ -64,8 +92,10 @@ const translations = {
         status_success: "성공! 문의가 전송되었습니다. 🚀",
         status_error: "오류가 발생했습니다. 다시 시도해주세요.",
         status_conn_error: "서버 연결에 문제가 발생했습니다.",
-        last_updated: "최근 업데이트: 2026년 5월 9일",
-        // SEO Translations
+        last_updated: "최근 업데이트: 2026년 5월 10일",
+        radio_heading: "한국 인터넷 라디오 📻",
+        now_playing_label: "현재 방송:",
+        select_station: "방송국을 선택해주세요",
         description: "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다.",
         keywords: "로또, 로또 번호 생성기, 오늘 뭐 먹지, 메뉴 추천, 랜덤 번호",
         "og:title": "로또 번호 생성기 & 오늘 뭐 먹지",
@@ -107,6 +137,17 @@ const updateLanguage = () => {
     // Special case for Title
     document.title = translations[currentLang].page_title;
 
+    // Update Radio Grid
+    if (stationGrid) {
+        initStationGrid();
+        if (activeStationId) {
+            const station = radioStations.find(s => s.id === activeStationId);
+            if (station) {
+                fetchNowPlaying(station);
+            }
+        }
+    }
+
     langToggle.textContent = currentLang === 'en' ? 'KO' : 'EN';
     document.documentElement.lang = currentLang;
     localStorage.setItem('lang', currentLang);
@@ -129,16 +170,6 @@ const setTheme = (theme) => {
     localStorage.setItem('theme', theme);
 };
 
-// Initialize
-setTheme(getPreferredTheme());
-updateLanguage();
-
-themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-});
-
 // Lotto Logic
 function generateNumbers() {
     const numbers = new Set();
@@ -150,6 +181,7 @@ function generateNumbers() {
 }
 
 function displayNumbers(numbers) {
+    if (!lottoNumbersContainer) return;
     lottoNumbersContainer.innerHTML = '';
     numbers.forEach((number, index) => {
         const numberDiv = document.createElement('div');
@@ -165,8 +197,9 @@ function handleGenerate() {
     displayNumbers(numbers);
 }
 
-generateBtn.addEventListener('click', handleGenerate);
-handleGenerate();
+if (generateBtn) {
+    generateBtn.addEventListener('click', handleGenerate);
+}
 
 // Dinner Recommendation Logic
 const dinnerBtn = document.querySelector('#dinner-btn');
@@ -191,6 +224,7 @@ const dinnerMenus = [
 ];
 
 function recommendDinner() {
+    if (!dinnerResult) return;
     dinnerResult.style.opacity = 0;
     dinnerResult.style.transform = 'translateY(10px)';
     
@@ -207,8 +241,12 @@ function recommendDinner() {
     }, 300);
 }
 
-dinnerBtn.addEventListener('click', recommendDinner);
-dinnerResult.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+if (dinnerBtn) {
+    dinnerBtn.addEventListener('click', recommendDinner);
+}
+if (dinnerResult) {
+    dinnerResult.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+}
 
 // Form Handling
 const contactForm = document.querySelector('#contact-form');
@@ -220,7 +258,6 @@ if (contactForm) {
         const formData = new FormData(contactForm);
         const submitBtn = contactForm.querySelector('#submit-btn');
         submitBtn.disabled = true;
-        const originalText = submitBtn.textContent;
         submitBtn.textContent = translations[currentLang].status_sending;
 
         try {
@@ -249,3 +286,161 @@ if (contactForm) {
         }
     });
 }
+
+// Radio Player Logic
+function initStationGrid() {
+    if (!stationGrid) return;
+    stationGrid.innerHTML = '';
+    radioStations.forEach(station => {
+        const btn = document.createElement('button');
+        btn.classList.add('station-btn');
+        btn.dataset.id = station.id;
+        btn.textContent = station.name[currentLang];
+        btn.addEventListener('click', () => playStation(station));
+        if (activeStationId === station.id) {
+            btn.classList.add('active');
+        }
+        stationGrid.appendChild(btn);
+    });
+}
+
+async function fetchNowPlaying(station) {
+    if (!station.api) {
+        if (currentStationDisplay) {
+            currentStationDisplay.textContent = station.name[currentLang];
+        }
+        return;
+    }
+
+    try {
+        const response = await fetch(station.api);
+        if (!response.ok) throw new Error('API fetch failed');
+        const data = await response.json();
+        
+        let programTitle = "";
+        if (station.type === 'mbc') {
+            const current = data.find(item => item.IsOnAirNow === 'Y');
+            programTitle = current ? current.Title : "";
+        }
+
+        if (currentStationDisplay) {
+            currentStationDisplay.textContent = programTitle 
+                ? `${station.name[currentLang]} - ${programTitle}`
+                : station.name[currentLang];
+        }
+    } catch (err) {
+        if (currentStationDisplay) {
+            currentStationDisplay.textContent = station.name[currentLang];
+        }
+    }
+}
+
+function playStation(station) {
+    if (activeStationId === station.id && isPlaying) {
+        pauseAudio();
+        return;
+    }
+
+    activeStationId = station.id;
+    if (currentStationDisplay) {
+        currentStationDisplay.textContent = station.name[currentLang];
+        currentStationDisplay.removeAttribute('data-i18n');
+    }
+    
+    fetchNowPlaying(station);
+    clearInterval(metadataInterval);
+    metadataInterval = setInterval(() => fetchNowPlaying(station), 60000);
+
+    document.querySelectorAll('.station-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.id === station.id);
+    });
+
+    if (hls) {
+        hls.destroy();
+    }
+
+    let streamUrl = station.url;
+    if (streamUrl.endsWith('.pls') && streamUrl.includes('duckdns.org')) {
+        streamUrl = streamUrl.replace('.pls', '.m3u8');
+    }
+
+    if (Hls.isSupported() && streamUrl.includes('.m3u8')) {
+        hls = new Hls();
+        hls.loadSource(streamUrl);
+        hls.attachMedia(audio);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            playAudio();
+        });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+            console.error('HLS error:', data);
+            if (data.fatal) {
+                audio.src = streamUrl;
+                playAudio();
+            }
+        });
+    } else {
+        audio.src = streamUrl;
+        playAudio();
+    }
+
+    if (playPauseBtn) playPauseBtn.disabled = false;
+}
+
+function playAudio() {
+    audio.play().then(() => {
+        isPlaying = true;
+        updatePlayerUI();
+    }).catch(err => {
+        console.error('Playback error:', err);
+    });
+}
+
+function pauseAudio() {
+    audio.pause();
+    isPlaying = false;
+    updatePlayerUI();
+}
+
+function updatePlayerUI() {
+    if (!playIcon || !pauseIcon) return;
+    if (isPlaying) {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+    } else {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+    }
+}
+
+if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            pauseAudio();
+        } else {
+            if (activeStationId) {
+                playAudio();
+            }
+        }
+    });
+}
+
+if (volumeSlider) {
+    volumeSlider.addEventListener('input', (e) => {
+        audio.volume = e.target.value;
+    });
+}
+
+// Initialize Everything
+setTheme(getPreferredTheme());
+updateLanguage();
+handleGenerate();
+initStationGrid();
+if (volumeSlider) {
+    audio.volume = volumeSlider.value;
+}
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+});

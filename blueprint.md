@@ -9,6 +9,7 @@ This is a modern web application that provides fun utilities: a lotto number gen
 
 *   **Lotto Generator**: Generates 6 unique random numbers (1-45) with a clean visual display and technical logic notes.
 *   **Dinner Recommender**: Provides random dinner suggestions with appetizing images.
+*   **Korean Radio**: A real-time streaming feature for popular Korean internet radio stations (KBS, MBC, SBS, CBS, EBS, etc.) with "Now Playing" metadata support for MBC.
 *   **Partnership Form**: A contact form for business inquiries using Formspree.
 *   **Theme Switching**: Support for Dark and Light (White) modes with persistent settings.
 *   **Multi-language Support**: Toggle between English and Korean for all site content, including SEO/GEO metadata and FAQ.
@@ -38,6 +39,10 @@ The goal was to optimize the site for the AI search era (ChatGPT Search, Google 
 
 3.  **style.css**:
     *   Add styling for FAQ, logic notes, and the site footer.
+
+4.  **Deployment**:
+    *   Commit and push all changes to GitHub.
+ooter, and **Radio player UI**.
 
 4.  **Deployment**:
     *   Commit and push all changes to GitHub.
