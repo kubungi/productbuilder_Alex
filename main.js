@@ -12,13 +12,13 @@ const playIcon = playPauseBtn ? playPauseBtn.querySelector('.play-icon') : null;
 const pauseIcon = playPauseBtn ? playPauseBtn.querySelector('.pause-icon') : null;
 
 const radioStations = [
-    { id: 'mbcfm4u', name: { en: "MBC FM4U", ko: "MBC FM4U" }, url: "http://serpent0.duckdns.org:8088/mbcfm.pls", api: "https://control.imbc.com/Schedule/Radio?channel=mfm", type: 'mbc' },
-    { id: 'mbcsfm', name: { en: "MBC Standard FM", ko: "MBC 표준FM" }, url: "http://serpent0.duckdns.org:8088/mbcsfm.pls", api: "https://control.imbc.com/Schedule/Radio?channel=sfm", type: 'mbc' },
-    { id: 'sbspower', name: { en: "SBS Power FM", ko: "SBS 파워FM" }, url: "http://serpent0.duckdns.org:8088/sbsfm.pls", type: 'sbs' },
-    { id: 'sbslove', name: { en: "SBS Love FM", ko: "SBS 러브FM" }, url: "http://serpent0.duckdns.org:8088/sbs2fm.pls", type: 'sbs' },
-    { id: 'kbscool', name: { en: "KBS Cool FM", ko: "KBS 쿨FM" }, url: "https://kbshls-i.akamaihd.net/hls/live/587881/2fm/playlist.m3u8", type: 'kbs' },
-    { id: 'kbs1fm', name: { en: "KBS Classic FM", ko: "KBS 클래식FM" }, url: "https://kbshls-i.akamaihd.net/hls/live/587879/1fm/playlist.m3u8", type: 'kbs' },
-    { id: 'cbs', name: { en: "CBS Music FM", ko: "CBS 음악FM" }, url: "https://m-aac.cbs.co.kr/mweb_cbs939/_definst_/cbs939.stream/playlist.m3u8" },
+    { id: 'mbcfm4u', name: { en: "MBC FM4U", ko: "MBC FM4U" }, type: 'mbc', channel: 'mfm' },
+    { id: 'mbcsfm', name: { en: "MBC Standard FM", ko: "MBC 표준FM" }, type: 'mbc', channel: 'sfm' },
+    { id: 'sbspower', name: { en: "SBS Power FM", ko: "SBS 파워FM" }, type: 'sbs', channel: 'powerfm' },
+    { id: 'sbslove', name: { en: "SBS Love FM", ko: "SBS 러브FM" }, type: 'sbs', channel: 'lovefm' },
+    { id: 'kbscool', name: { en: "KBS Cool FM", ko: "KBS 쿨FM" }, type: 'kbs', channel: '25' },
+    { id: 'kbs1fm', name: { en: "KBS Classic FM", ko: "KBS 클래식FM" }, type: 'kbs', channel: '24' },
+    { id: 'cbs', name: { en: "CBS Music FM", ko: "CBS 음악FM" }, url: "https://m-aac.cbs.co.kr/cbs939/_definst_/cbs939.stream/playlist.m3u8" },
     { id: 'ebs', name: { en: "EBS FM", ko: "EBS FM" }, url: "https://ebsonair.ebs.co.kr/fmradiofamilypc/familypc1m/playlist.m3u8" },
     { id: 'ytn', name: { en: "YTN Radio", ko: "YTN 라디오" }, url: "https://radiolive.ytn.co.kr/radio/_definst_/20211118_fmlive/playlist.m3u8" }
 ];
@@ -56,7 +56,7 @@ const translations = {
         status_success: "Success! Your inquiry has been sent. 🚀",
         status_error: "Oops! There was a problem. Please try again.",
         status_conn_error: "Oops! There was a problem connecting to the server.",
-        last_updated: "Last updated: May 10, 2026",
+        last_updated: "Last updated: May 11, 2026",
         radio_heading: "Korean Internet Radio 📻",
         now_playing_label: "Now Playing:",
         select_station: "Select a station",
@@ -92,7 +92,7 @@ const translations = {
         status_success: "성공! 문의가 전송되었습니다. 🚀",
         status_error: "오류가 발생했습니다. 다시 시도해주세요.",
         status_conn_error: "서버 연결에 문제가 발생했습니다.",
-        last_updated: "최근 업데이트: 2026년 5월 10일",
+        last_updated: "최근 업데이트: 2026년 5월 11일",
         radio_heading: "한국 인터넷 라디오 📻",
         now_playing_label: "현재 방송:",
         select_station: "방송국을 선택해주세요",
@@ -106,7 +106,7 @@ const translations = {
 };
 
 // Language Logic
-let currentLang = localStorage.getItem('lang') || 'en';
+let currentLang = localStorage.getItem('lang') || 'ko';
 
 const updateLanguage = () => {
     // Update Text Content
@@ -305,22 +305,21 @@ function initStationGrid() {
 }
 
 async function fetchNowPlaying(station) {
-    if (!station.api) {
-        if (currentStationDisplay) {
-            currentStationDisplay.textContent = station.name[currentLang];
-        }
-        return;
-    }
-
+    let programTitle = "";
     try {
-        const response = await fetch(station.api);
-        if (!response.ok) throw new Error('API fetch failed');
-        const data = await response.json();
-        
-        let programTitle = "";
         if (station.type === 'mbc') {
+            const response = await fetch(`https://control.imbc.com/Schedule/Radio?channel=${station.channel}`);
+            const data = await response.json();
             const current = data.find(item => item.IsOnAirNow === 'Y');
             programTitle = current ? current.Title : "";
+        } else if (station.type === 'sbs') {
+            const response = await fetch(`https://gorealraapi.sbs.co.kr/v1/program/nowplaying?channel=${station.channel}`);
+            const data = await response.json();
+            programTitle = data.data && data.data.title ? data.data.title : "";
+        } else if (station.type === 'kbs') {
+            const response = await fetch(`https://api.kbs.co.kr/v1/radio/nowplaying?channel_code=${station.channel}`);
+            const data = await response.json();
+            programTitle = data.program_title || (data.data && data.data.program_title) || "";
         }
 
         if (currentStationDisplay) {
@@ -335,7 +334,7 @@ async function fetchNowPlaying(station) {
     }
 }
 
-function playStation(station) {
+async function playStation(station) {
     if (activeStationId === station.id && isPlaying) {
         pauseAudio();
         return;
@@ -360,8 +359,27 @@ function playStation(station) {
     }
 
     let streamUrl = station.url;
-    if (streamUrl.endsWith('.pls') && streamUrl.includes('duckdns.org')) {
-        streamUrl = streamUrl.replace('.pls', '.m3u8');
+
+    // Dynamic Stream URL fetching
+    try {
+        if (station.type === 'mbc') {
+            const res = await fetch(`https://sminiplay.imbc.com/aacplay.ashx?agent=webapp&channel=${station.channel}`);
+            streamUrl = await res.text();
+        } else if (station.type === 'sbs') {
+            const res = await fetch(`https://apis.sbs.co.kr/play-api/1.0/livestream/powerpc/${station.channel}?protocol=hls&ssl=Y`);
+            streamUrl = await res.text();
+        } else if (station.type === 'kbs') {
+            const res = await fetch(`https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/${station.channel}`);
+            const data = await res.json();
+            streamUrl = data.channel_item[0].service_url;
+        }
+    } catch (err) {
+        console.error('Failed to fetch stream URL:', err);
+    }
+
+    if (!streamUrl) {
+        console.error('No stream URL available');
+        return;
     }
 
     if (Hls.isSupported() && streamUrl.includes('.m3u8')) {
@@ -372,10 +390,18 @@ function playStation(station) {
             playAudio();
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
-            console.error('HLS error:', data);
             if (data.fatal) {
-                audio.src = streamUrl;
-                playAudio();
+                switch(data.type) {
+                    case Hls.ErrorTypes.NETWORK_ERROR:
+                        hls.startLoad();
+                        break;
+                    case Hls.ErrorTypes.MEDIA_ERROR:
+                        hls.recoverMediaError();
+                        break;
+                    default:
+                        hls.destroy();
+                        break;
+                }
             }
         });
     } else {

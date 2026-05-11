@@ -7,9 +7,9 @@ This is a modern web application that provides fun utilities: a lotto number gen
 
 ## Features
 
+*   **Korean Radio**: A real-time streaming feature for popular Korean internet radio stations (KBS, MBC, SBS, CBS, EBS, etc.). It uses official broadcaster APIs (KBS Kong, MBC Mini, SBS Gorealra) to dynamically fetch tokenized HLS (m3u8) streams and real-time "Now Playing" metadata.
 *   **Lotto Generator**: Generates 6 unique random numbers (1-45) with a clean visual display and technical logic notes.
 *   **Dinner Recommender**: Provides random dinner suggestions with appetizing images.
-*   **Korean Radio**: A real-time streaming feature for popular Korean internet radio stations (KBS, MBC, SBS, CBS, EBS, etc.) with "Now Playing" metadata support for MBC.
 *   **Partnership Form**: A contact form for business inquiries using Formspree.
 *   **Theme Switching**: Support for Dark and Light (White) modes with persistent settings.
 *   **Multi-language Support**: Toggle between English and Korean for all site content, including SEO/GEO metadata and FAQ.
@@ -21,28 +21,16 @@ This is a modern web application that provides fun utilities: a lotto number gen
     *   Freshness signals (Last Updated date) and Author authority.
     *   `robots.txt` and `sitemap.xml` for crawler management.
 
-## Current Task: GEO (Generative Engine Optimization)
+## Current Task: Radio Fix & API Integration
 
-The goal was to optimize the site for the AI search era (ChatGPT Search, Google AI Overviews, Perplexity) based on Toss Payments' GEO guide.
+The goal was to fix the broken radio streams by using official API endpoints and HLS.js for playback.
 
 ### Plan
 
-1.  **index.html**:
-    *   Add an FAQ section with H2/H3 tags for conversational search.
-    *   Add a logic note explaining the generation algorithm.
-    *   Enrich JSON-LD with FAQPage schema and author/dateModified fields.
-    *   Add a footer with copyright and last updated date.
-
+1.  **Research**: Identified API endpoints for KBS, MBC, and SBS stream fetching and metadata.
 2.  **main.js**:
-    *   Update translations for FAQ and logic notes.
-    *   Ensure all new elements respect language switching.
-
-3.  **style.css**:
-    *   Add styling for FAQ, logic notes, and the site footer.
-
-4.  **Deployment**:
-    *   Commit and push all changes to GitHub.
-ooter, and **Radio player UI**.
-
-4.  **Deployment**:
-    *   Commit and push all changes to GitHub.
+    *   Refactored `radioStations` to include broadcaster types and channel IDs.
+    *   Implemented `getStreamUrl` logic within `playStation` to fetch tokenized URLs.
+    *   Enhanced `fetchNowPlaying` to support KBS and SBS metadata APIs.
+    *   Switched to `https` versions of all streams to avoid Mixed Content issues on GitHub Pages.
+3.  **Deployment**: Commit and push changes.
