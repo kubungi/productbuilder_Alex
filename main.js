@@ -18,6 +18,7 @@ const radioStations = [
     { id: 'sbslove', name: { en: "SBS Love FM", ko: "SBS 러브FM" }, type: 'sbs', channel: 'lovefm' },
     { id: 'kbscool', name: { en: "KBS Cool FM", ko: "KBS 쿨FM" }, type: 'kbs', channel: '25' },
     { id: 'kbs1fm', name: { en: "KBS Classic FM", ko: "KBS 클래식FM" }, type: 'kbs', channel: '24' },
+    { id: 'arirang', name: { en: "Arirang Radio", ko: "아리랑 라디오" }, type: 'arirang', url: "https://amdlive-ch01.ctnd.com/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8" },
     { id: 'cbs', name: { en: "CBS Music FM", ko: "CBS 음악FM" }, url: "https://m-aac.cbs.co.kr/cbs939/_definst_/cbs939.stream/playlist.m3u8" },
     { id: 'ebs', name: { en: "EBS FM", ko: "EBS FM" }, url: "https://ebsonair.ebs.co.kr/fmradiofamilypc/familypc1m/playlist.m3u8" },
     { id: 'ytn', name: { en: "YTN Radio", ko: "YTN 라디오" }, url: "https://radiolive.ytn.co.kr/radio/_definst_/20211118_fmlive/playlist.m3u8" }
@@ -320,6 +321,11 @@ async function fetchNowPlaying(station) {
             const response = await fetch(`https://api.kbs.co.kr/v1/radio/nowplaying?channel_code=${station.channel}`);
             const data = await response.json();
             programTitle = data.program_title || (data.data && data.data.program_title) || "";
+        } else if (station.type === 'arirang') {
+            // Arirang Now Playing API
+            const response = await fetch(`https://www.arirang.com/radio/getNowPlaying.asp`);
+            const data = await response.json();
+            programTitle = data.Title || "";
         }
 
         if (currentStationDisplay) {
