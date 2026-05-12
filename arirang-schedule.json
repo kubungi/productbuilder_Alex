@@ -1,0 +1,128 @@
+[
+  {
+    "name": "GOOD MORNING SEOUL",
+    "overview": "Start your weekday mornings with [Good Morning Seoul], a morning magazine show dedicated to bringing you not only the latest domestic and international breaking news and top stories; but also trending topics that will keep you informed and up-to-date.Get ready for two hours of latest news, trends, music and GMS energy to start the day!Broadcast time: 7:00 to 9:00 a.m. Korea Standard Time",
+    "start": 7,
+    "end": 9,
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "genre": "Current Affairs"
+  },
+  {
+    "name": "#daily K",
+    "overview": "Korea, drawing the world in closer under the banner of the 'Korean Wave'. Now, Korean culture is captivating the world as a global trend.Time to encounter the hottest Korea every day. Everything about the peninsula, on #daily K",
+    "start": 9,
+    "end": 11,
+    "days": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "genre": "Culture"
+  },
+  {
+    "name": "Culture Crunch",
+    "overview": "Want to know more about K-CULTURE?Crunch on a different flavour of K-CULTURE every day with me, Chi-hee on Culture Crunch!",
+    "start": 11,
+    "end": 12,
+    "days": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "genre": "Culture"
+  },
+  {
+    "name": "K-POPPIN'",
+    "overview": "12-2pm is not the best time for energy and DJ Isak waits everyday with her high tension energy to liven up your day!Have fun traveling through different types of K-pop, learn more about K-pop artists, interesting K-content and more!!!! No tickets needed,just sit back relax and let Kpoppin take you on a K-pop adventure everyday!!! Our listeners are sure to get the VIP treatment!",
+    "start": 12,
+    "end": 14,
+    "days": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "genre": "Culture"
+  },
+  {
+    "name": "h[a:rt] attack",
+    "overview": "Dive into the world of Korean [art] with Gen Z artist prettylittleirisas she explores music, movies, dramas, literature, and more!This program will not only highlight the charm of Korean culture,but will also give listeners a [heart]-fluttering experience.",
+    "start": 14,
+    "end": 16,
+    "days": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "genre": "Culture"
+  },
+  {
+    "name": "THE ARCHIVE",
+    "overview": "The Archive explores the depth of K-pop and K-content. Like a collection of knowledge, this show brings music and content together, offering in-depth analysis of K-pop’s musical roots and the unique journey of K-content. Each episode uncovers hidden meanings, providing fresh insights and a special experience for listeners.º EveryDay 16:00 ~ 17:55 KST",
+    "start": 16,
+    "end": 18,
+    "days": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "genre": "Culture"
+  },
+  {
+    "name": "The Kulture Inc.",
+    "overview": "Welcome to The Kulture Inc.This is where K-culture experts gather to discover the charm of K-pop, K-dramas and K-movies and to humorously uncover the true face of Koreans in work culture, consumer culture and even food.Don’t miss the stories of The Kulture Inc., the employees who will capture both fun and knowledge. º EveryDay 18:00 ~ 19:55 KST",
+    "start": 18,
+    "end": 20,
+    "days": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "genre": "Culture"
+  },
+  {
+    "name": "WONDERS OF JEJU",
+    "overview": "Wonders of Jeju airs from 10 pm till midnight Monday to Sunday, joining you every night. Wonders of Jeju brings you information all about the island. If you want to feel the wind and the sea from Jeju, you have to stay tuned; our program will bring you not only the atmosphere from Jeju, but also help relieve your fatigue from ordinary life. If you want to visit Jeju or if you are residing in there now, this program is a must-listen radio program every night.Join us every night from 10 pm till midnight!",
+    "start": 22,
+    "end": 24,
+    "days": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "genre": "Culture"
+  }
+]

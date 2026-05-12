@@ -11,6 +11,12 @@ const currentStationDisplay = document.querySelector('#current-station');
 const playIcon = playPauseBtn ? playPauseBtn.querySelector('.play-icon') : null;
 const pauseIcon = playPauseBtn ? playPauseBtn.querySelector('.pause-icon') : null;
 
+// Arirang Schedule Variables
+const timelineRuler = document.querySelector('#timeline-ruler');
+const timelineContent = document.querySelector('#timeline-content');
+const currentTimeLine = document.querySelector('#current-time-line');
+const currentDayDisplay = document.querySelector('#current-day-display');
+
 const radioStations = [
     { id: 'mbcfm4u', name: { en: "MBC FM4U", ko: "MBC FM4U" }, type: 'mbc', channel: 'mfm' },
     { id: 'mbcsfm', name: { en: "MBC Standard FM", ko: "MBC 표준FM" }, type: 'mbc', channel: 'sfm' },
@@ -66,7 +72,12 @@ const translations = {
         "og:title": "Lotto Number Generator & Dinner Recommender",
         "og:description": "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life.",
         "twitter:title": "Lotto Number Generator & Dinner Recommender",
-        "twitter:description": "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life."
+        "twitter:description": "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life.",
+        arirang_schedule_heading: "Arirang Radio Schedule 📻",
+        arirang_schedule_desc: "Click on any program to start listening live!",
+        today_schedule: "Today's Schedule",
+        loading_schedule: "Loading schedule...",
+        error_schedule: "Failed to load schedule."
     },
     ko: {
         page_title: "로또 번호 생성기 & 오늘 뭐 먹지",
@@ -102,7 +113,12 @@ const translations = {
         "og:title": "로또 번호 생성기 & 오늘 뭐 먹지",
         "og:description": "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다.",
         "twitter:title": "로또 번호 생성기 & 오늘 뭐 먹지",
-        "twitter:description": "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다."
+        "twitter:description": "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다.",
+        arirang_schedule_heading: "아리랑 라디오 편성표 📻",
+        arirang_schedule_desc: "편성표를 클릭하면 실시간 방송이 재생됩니다!",
+        today_schedule: "오늘의 편성표",
+        loading_schedule: "편성표를 불러오는 중...",
+        error_schedule: "편성표를 불러오지 못했습니다."
     }
 };
 
@@ -320,9 +336,8 @@ async function fetchNowPlaying(station) {
         } else if (station.type === 'kbs') {
             const response = await fetch(`https://api.kbs.co.kr/v1/radio/nowplaying?channel_code=${station.channel}`);
             const data = await response.json();
-            programTitle = data.program_title || (data.data && data.data.program_title) || "";
+            programTitle = data.program_title || (data.data && data.program_title) || "";
         } else if (station.type === 'arirang') {
-            // Arirang Now Playing API
             const response = await fetch(`https://www.arirang.com/radio/getNowPlaying.asp`);
             const data = await response.json();
             programTitle = data.Title || "";
@@ -462,11 +477,127 @@ if (volumeSlider) {
     });
 }
 
+// Arirang Schedule Logic
+const ARIRANG_STREAM_URL = "https://amdlive-ch01.ctnd.com/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8";
+
+async function fetchArirangSchedule() {
+    try {
+        const response = await fetch('./arirang-schedule.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.error('Failed to fetch Arirang schedule:', err);
+        return null;
+    }
+}
+
+function initTimeline() {
+    if (!timelineRuler) return;
+    timelineRuler.innerHTML = '';
+    for (let i = 0; i < 24; i++) {
+        const marker = document.createElement('div');
+        marker.classList.add('hour-marker');
+        marker.textContent = `${i.toString().padStart(2, '0')}:00`;
+        timelineRuler.appendChild(marker);
+    }
+}
+
+async function renderArirangSchedule() {
+    if (!timelineContent) return;
+    
+    initTimeline();
+    const allPrograms = await fetchArirangSchedule();
+
+    if (!allPrograms) {
+        if (currentDayDisplay) {
+            currentDayDisplay.textContent = translations[currentLang].error_schedule;
+        }
+        return;
+    }
+
+    const today = new Date().getDay(); // 0 (Sun) to 6 (Sat)
+    const programs = allPrograms.filter(prog => prog.days.includes(today));
+
+    // Clear existing programs but keep the time line
+    const existingBlocks = timelineContent.querySelectorAll('.program-block');
+    existingBlocks.forEach(b => b.remove());
+
+    programs.forEach(prog => {
+        const block = document.createElement('div');
+        block.classList.add('program-block');
+        const startX = prog.start * 60; // 60px per hour
+        const width = (prog.end - prog.start) * 60;
+        
+        block.style.left = `${startX}px`;
+        block.style.width = `${width}px`;
+        block.innerHTML = `
+            <span class="program-name">${prog.name}</span>
+            <span class="program-time">${formatTime(prog.start)} - ${formatTime(prog.end)}</span>
+        `;
+        
+        block.title = prog.overview;
+        
+        block.addEventListener('click', () => {
+            const arirangStation = radioStations.find(s => s.id === 'arirang');
+            if (arirangStation) {
+                // Force the correct stream URL for Arirang
+                arirangStation.url = ARIRANG_STREAM_URL;
+                playStation(arirangStation);
+            }
+        });
+
+        timelineContent.appendChild(block);
+    });
+
+    updateCurrentTimeIndicator(true); // true to scroll
+}
+
+function formatTime(decimalHour) {
+    const h = Math.floor(decimalHour);
+    const m = Math.round((decimalHour - h) * 60);
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+}
+
+function updateCurrentTimeIndicator(shouldScroll = false) {
+    if (!currentTimeLine) return;
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    
+    const decimalTime = hours + minutes/60 + seconds/3600;
+    const xPos = decimalTime * 60;
+    currentTimeLine.style.left = `${xPos}px`;
+
+    // Highlight current program
+    const programs = timelineContent.querySelectorAll('.program-block');
+    programs.forEach(block => {
+        const left = parseFloat(block.style.left);
+        const width = parseFloat(block.style.width);
+        if (xPos >= left && xPos <= left + width) {
+            block.classList.add('active-program');
+        } else {
+            block.classList.remove('active-program');
+        }
+    });
+
+    if (shouldScroll) {
+        const wrapper = document.querySelector('.timeline-wrapper');
+        if (wrapper) {
+            const scrollPos = xPos - wrapper.offsetWidth / 2;
+            wrapper.scrollLeft = scrollPos;
+        }
+    }
+}
+
 // Initialize Everything
 setTheme(getPreferredTheme());
 updateLanguage();
 handleGenerate();
 initStationGrid();
+renderArirangSchedule();
+
 if (volumeSlider) {
     audio.volume = volumeSlider.value;
 }
@@ -476,3 +607,5 @@ themeToggle.addEventListener('click', () => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
 });
+
+setInterval(updateCurrentTimeIndicator, 60000);

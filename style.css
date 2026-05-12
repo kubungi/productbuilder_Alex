@@ -390,4 +390,169 @@
         border-color: var(--accent-color);
         box-shadow: 0 4px 12px var(--accent-color);
     }
+
+    /* Arirang Radio Schedule Styles */
+    .arirang-schedule-section {
+        margin-top: 40px;
+    }
+
+    .section-desc {
+        font-size: 0.9rem;
+        opacity: 0.7;
+        margin-top: -24px;
+        margin-bottom: 24px;
+    }
+
+    .timeline-container {
+        background-color: var(--input-bg);
+        border-radius: 18px;
+        padding: 24px;
+        margin-top: 24px;
+        box-shadow: 0 8px 24px var(--shadow-color);
+        overflow: hidden;
+    }
+
+    .timeline-header {
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: var(--accent-color);
+        text-align: left;
+    }
+
+    .timeline-wrapper {
+        position: relative;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-color) transparent;
+    }
+
+    .timeline-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .timeline-wrapper::-webkit-scrollbar-thumb {
+        background: var(--accent-color);
+        border-radius: 3px;
+    }
+
+    .timeline-ruler {
+        display: flex;
+        border-bottom: 1px solid var(--divider-color);
+        margin-bottom: 10px;
+        min-width: 1440px; /* 60px per hour * 24 */
+        position: relative;
+    }
+
+    .hour-marker {
+        width: 60px;
+        flex-shrink: 0;
+        font-size: 0.75rem;
+        text-align: left;
+        padding-left: 2px;
+        color: var(--text-color);
+        opacity: 0.5;
+        border-left: 1px solid var(--divider-color);
+        height: 20px;
+        position: relative;
+    }
+
+    .hour-marker::after {
+        content: '';
+        position: absolute;
+        left: 30px;
+        bottom: 0;
+        width: 1px;
+        height: 8px;
+        background-color: var(--divider-color);
+        opacity: 0.5;
+    }
+
+    .timeline-content {
+        position: relative;
+        height: 80px;
+        min-width: 1440px;
+        background-image: linear-gradient(90deg, var(--divider-color) 1px, transparent 1px);
+        background-size: 60px 100%;
+    }
+
+    .program-block {
+        position: absolute;
+        top: 10px;
+        height: 60px;
+        background: var(--accent-color);
+        color: white;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 8px var(--shadow-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        z-index: 2;
+    }
+
+    .program-block:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.1);
+        box-shadow: 0 6px 12px var(--accent-color);
+        z-index: 10;
+        white-space: normal;
+        overflow: visible;
+        height: auto;
+        min-height: 60px;
+    }
+
+    .program-block.active-program {
+        background: linear-gradient(135deg, #ff4757, var(--accent-color));
+        box-shadow: 0 0 15px rgba(255, 71, 87, 0.4);
+        border: 2px solid white;
+    }
+
+    .program-block.active-program::before {
+        content: 'LIVE';
+        position: absolute;
+        top: -12px;
+        right: 4px;
+        background: #ff4757;
+        color: white;
+        font-size: 0.6rem;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-weight: 800;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .program-time {
+        font-size: 0.7rem;
+        opacity: 0.8;
+    }
+
+    .current-time-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: #ff4757;
+        z-index: 5;
+        pointer-events: none;
+    }
+
+    .current-time-line::after {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        width: 10px;
+        height: 10px;
+        background-color: #ff4757;
+        border-radius: 50%;
+        box-shadow: 0 0 8px rgba(255, 71, 87, 0.5);
+    }
 }

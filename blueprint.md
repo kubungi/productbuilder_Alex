@@ -5,9 +5,13 @@
 
 This is a modern web application that provides fun utilities: a lotto number generator and a dinner menu recommender. It features a clean, responsive design with dark/light mode and multi-language support (English/Korean), fully optimized for SEO (Google/Naver) and GEO (Generative Engine Optimization).
 
-## Features
+### Usage
+*   **Update Schedule**: Run `node fetch_arirang.js` once a week to refresh the Arirang Radio schedule data from the Public Data Portal. This updates `arirang-schedule.json`.
 
-*   **Korean Radio**: A real-time streaming feature for popular Korean internet radio stations (KBS, MBC, SBS, CBS, EBS, etc.). It uses official broadcaster APIs (KBS Kong, MBC Mini, SBS Gorealra) to dynamically fetch tokenized HLS (m3u8) streams and real-time "Now Playing" metadata.
+## Features
+...
+*   **Arirang Radio Timeline**: A dedicated horizontal timeline at the bottom of the page showing the 24-hour schedule for Arirang Radio. It features a real-time "current time" marker and allows users to start the live stream by clicking on any program block.
+
 *   **Lotto Generator**: Generates 6 unique random numbers (1-45) with a clean visual display and technical logic notes.
 *   **Dinner Recommender**: Provides random dinner suggestions with appetizing images.
 *   **Partnership Form**: A contact form for business inquiries using Formspree.
@@ -21,16 +25,10 @@ This is a modern web application that provides fun utilities: a lotto number gen
     *   Freshness signals (Last Updated date) and Author authority.
     *   `robots.txt` and `sitemap.xml` for crawler management.
 
-## Current Task: Radio Fix & API Integration
+## Completed: Arirang Radio Integration & Horizontal Timeline
 
-The goal was to fix the broken radio streams by using official API endpoints and HLS.js for playback.
-
-### Plan
-
-1.  **Research**: Identified API endpoints for KBS, MBC, and SBS stream fetching and metadata.
-2.  **main.js**:
-    *   Refactored `radioStations` to include broadcaster types and channel IDs.
-    *   Implemented `getStreamUrl` logic within `playStation` to fetch tokenized URLs.
-    *   Enhanced `fetchNowPlaying` to support KBS and SBS metadata APIs.
-    *   Switched to `https` versions of all streams to avoid Mixed Content issues on GitHub Pages.
-3.  **Deployment**: Commit and push changes.
+Implemented a robust system for Arirang Radio schedule management:
+*   **Fetch Script**: `fetch_arirang.js` handles weekly API calls and data parsing.
+*   **Data Storage**: `arirang-schedule.json` provides fast, local access to the schedule.
+*   **Timeline UI**: A horizontal, scrollable 24-hour timeline with "LIVE" indicators and real-time markers.
+*   **Playback Integration**: Seamlessly plays Arirang Radio when programs are clicked.
