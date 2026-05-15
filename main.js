@@ -227,13 +227,13 @@ const dinnerMenus = [
     { name: { en: "Sushi 🍣", ko: "초밥 🍣" }, image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Pizza 🍕", ko: "피자 🍕" }, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Tacos 🌮", ko: "타코 🌮" }, image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Steak 🥩", ko: "스테이크 🥩" }, image: "https://images.unsplash.com/photo-1546241072-48010ad28c2c?q=80&w=800&auto=format&fit=crop" },
+    { name: { en: "Steak 🥩", ko: "스테이크 🥩" }, image: "https://images.unsplash.com/photo-1594041419135-4f6bc0eeaa26?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Ramen 🍜", ko: "라멘 🍜" }, image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Bulgogi 🥢", ko: "불고기 🥢" }, image: "https://images.unsplash.com/photo-1616031037011-087000171abe?q=80&w=800&auto=format&fit=crop" },
+    { name: { en: "Bulgogi 🥢", ko: "불고기 🥢" }, image: "https://images.unsplash.com/photo-1533758593398-dec35984428f?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Salad 🥗", ko: "샐러드 🥗" }, image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Burgers 🍔", ko: "햄버거 🍔" }, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Jajangmyeon 🍜", ko: "짜장면 🍜" }, image: "https://images.unsplash.com/photo-1623341214825-9f4f963727da?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Samgyeopsal 🥓", ko: "삼겹살 🥓" }, image: "https://images.unsplash.com/photo-1632761352433-255d654593f6?q=80&w=800&auto=format&fit=crop" },
+    { name: { en: "Samgyeopsal 🥓", ko: "삼겹살 🥓" }, image: "https://images.unsplash.com/photo-1532634832-6049a463a566?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Donkatsu 🍛", ko: "돈까스 🍛" }, image: "https://images.unsplash.com/photo-1596450514735-3164478479e0?q=80&w=800&auto=format&fit=crop" }
 ];
 
