@@ -18,10 +18,7 @@ const scheduleGridContent = document.querySelector('#schedule-grid-content');
 const currentTimeLine = document.querySelector('#current-time-line');
 
 const radioStations = [
-    { id: 'mbcfm4u', name: { en: "MBC FM4U", ko: "MBC FM4U" }, type: 'mbc', channel: 'mfm' },
-    { id: 'mbcsfm', name: { en: "MBC Standard FM", ko: "MBC 표준FM" }, type: 'mbc', channel: 'sfm' },
     { id: 'sbspower', name: { en: "SBS Power FM", ko: "SBS 파워FM" }, type: 'sbs', channel: 'powerfm' },
-    { id: 'sbslove', name: { en: "SBS Love FM", ko: "SBS 러브FM" }, type: 'sbs', channel: 'lovefm' },
     { id: 'kbscool', name: { en: "KBS Cool FM", ko: "KBS 쿨FM" }, type: 'kbs', channel: '25' },
     { id: 'kbs1fm', name: { en: "KBS Classic FM", ko: "KBS 클래식FM" }, type: 'kbs', channel: '24' },
     { id: 'arirang', name: { en: "Arirang Radio", ko: "아리랑 라디오" }, type: 'arirang', url: "https://amdlive-ch01-ctnd-com.akamaized.net/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8" },
@@ -321,6 +318,15 @@ function initStationGrid() {
     });
 }
 
+async function fetchArirangSchedule() {
+    try {
+        const response = await fetch('./arirang-schedule.json');
+        return await response.json();
+    } catch (err) {
+        return null;
+    }
+}
+
 async function fetchNowPlaying(station) {
     let programTitle = "";
     try {
@@ -345,12 +351,7 @@ async function fetchNowPlaying(station) {
 
         // If no static program found or we want live API data, try APIs
         if (!programTitle) {
-            if (station.type === 'mbc') {
-                const response = await fetch(`https://control.imbc.com/Schedule/Radio?channel=${station.channel}`);
-                const data = await response.json();
-                const current = data.find(item => item.IsOnAirNow === 'Y');
-                programTitle = current ? current.Title : "";
-            } else if (station.type === 'sbs') {
+            if (station.type === 'sbs') {
                 const response = await fetch(`https://gorealraapi.sbs.co.kr/v1/program/nowplaying?channel=${station.channel}`);
                 const data = await response.json();
                 programTitle = data.data && data.data.title ? data.data.title : "";
@@ -410,10 +411,7 @@ async function playStation(station) {
 
     // Dynamic Stream URL fetching
     try {
-        if (station.type === 'mbc') {
-            const res = await fetch(`https://sminiplay.imbc.com/aacplay.ashx?agent=webapp&channel=${station.channel}`);
-            streamUrl = await res.text();
-        } else if (station.type === 'sbs') {
+        if (station.type === 'sbs') {
             const res = await fetch(`https://apis.sbs.co.kr/play-api/1.0/livestream/powerpc/${station.channel}?protocol=hls&ssl=Y`);
             streamUrl = await res.text();
         } else if (station.type === 'kbs') {
@@ -656,7 +654,7 @@ function updateCurrentTimeIndicator(shouldScroll = false) {
     });
 
     if (shouldScroll) {
-        const wrapper = document.querySelector('.schedule-grid-content');
+        const wrapper = document.querySelector('.schedule-grid-container');
         if (wrapper) {
             const scrollPos = xPos - (wrapper.offsetWidth - 120) / 2;
             wrapper.scrollLeft = scrollPos;
