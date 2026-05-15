@@ -220,21 +220,21 @@ const dinnerBtn = document.querySelector('#dinner-btn');
 const dinnerResult = document.querySelector('#dinner-result');
 
 const dinnerMenus = [
-    { name: { en: "Kimchi Stew 🥘", ko: "김치찌개 🥘" }, image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Korean Fried Chicken 🍗", ko: "치킨 🍗" }, image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Bibimbap 🥗", ko: "비빔밥 🥗" }, image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Pasta 🍝", ko: "파스타 🍝" }, image: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Sushi 🍣", ko: "초밥 🍣" }, image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Pizza 🍕", ko: "피자 🍕" }, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Tacos 🌮", ko: "타코 🌮" }, image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Steak 🥩", ko: "스테이크 🥩" }, image: "https://images.unsplash.com/photo-1594041419135-4f6bc0eeaa26?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Ramen 🍜", ko: "라멘 🍜" }, image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Bulgogi 🥢", ko: "불고기 🥢" }, image: "https://images.unsplash.com/photo-1533758593398-dec35984428f?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Salad 🥗", ko: "샐러드 🥗" }, image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Burgers 🍔", ko: "햄버거 🍔" }, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Jajangmyeon 🍜", ko: "짜장면 🍜" }, image: "https://images.unsplash.com/photo-1623341214825-9f4f963727da?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Samgyeopsal 🥓", ko: "삼겹살 🥓" }, image: "https://images.unsplash.com/photo-1532634832-6049a463a566?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Donkatsu 🍛", ko: "돈까스 🍛" }, image: "https://images.unsplash.com/photo-1596450514735-3164478479e0?q=80&w=800&auto=format&fit=crop" }
+    { name: { en: "Kimchi Stew 🥘", ko: "김치찌개 🥘" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/kimchi-jjigae-korean-stew.jpg" },
+    { name: { en: "Korean Fried Chicken 🍗", ko: "치킨 🍗" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/fried-chicken-wings.jpg" },
+    { name: { en: "Bibimbap 🥗", ko: "비빔밥 🥗" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/korean-bibimbap-in-yamyam-berlin.jpg" },
+    { name: { en: "Pasta 🍝", ko: "파스타 🍝" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/04/pasta-with-tomatoes-and-basil.jpg" },
+    { name: { en: "Sushi 🍣", ko: "초밥 🍣" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/sushi-maki.jpg" },
+    { name: { en: "Pizza 🍕", ko: "피자 🍕" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/pizza-ready-for-baking.jpg" },
+    { name: { en: "Tacos 🌮", ko: "타코 🌮" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/mexican-tacos-with-beef-and-vegetables.jpg" },
+    { name: { en: "Steak 🥩", ko: "스테이크 🥩" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/grilled-beef-steak.jpg" },
+    { name: { en: "Ramen 🍜", ko: "라멘 🍜" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/japanese-ramen-soup.jpg" },
+    { name: { en: "Bulgogi 🥢", ko: "불고기 🥢" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/korean-bulgogi-barbecue.jpg" },
+    { name: { en: "Salad 🥗", ko: "샐러드 🥗" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/fresh-vegetable-salad.jpg" },
+    { name: { en: "Burgers 🍔", ko: "햄버거 🍔" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made.jpg" },
+    { name: { en: "Jajangmyeon 🍜", ko: "짜장면 🍜" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/man-eating-korean-noodles.jpg" },
+    { name: { en: "Samgyeopsal 🥓", ko: "삼겹살 🥓" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/korean-bbq-grill.jpg" },
+    { name: { en: "Donkatsu 🍛", ko: "돈까스 🍛" }, image: "https://www.foodiesfeed.com/wp-content/uploads/2019/02/tonkatsu-japanese-pork-cutlet.jpg" }
 ];
 
 function recommendDinner() {
