@@ -1,3 +1,8 @@
+/* Global Reset */
+* {
+    box-sizing: border-box;
+}
+
 @layer base, components, utilities;
 
 @layer base {
@@ -50,7 +55,7 @@
 
 @layer components {
     .container {
-        max-width: 800px; /* Increased for grid */
+        max-width: 800px;
         width: 95%;
         margin: 40px auto;
         padding: 40px;
@@ -94,11 +99,6 @@
     .theme-toggle svg {
         transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    [data-theme="dark"] .sun-icon { display: block; }
-    [data-theme="dark"] .moon-icon { display: none; }
-    [data-theme="light"] .sun-icon { display: none; }
-    [data-theme="light"] .moon-icon { display: block; }
 
     .sun-icon, .moon-icon { display: none; }
     [data-theme="dark"] .sun-icon { display: block; }
@@ -420,6 +420,7 @@
         display: flex;
         flex-direction: column;
         box-shadow: var(--card-shadow);
+        width: 100%;
     }
 
     .timeline-header {
@@ -428,8 +429,8 @@
         border-bottom: 1px solid var(--divider-color);
         position: sticky;
         top: 0;
-        z-index: 20;
-        width: fit-content;
+        z-index: 200;
+        width: 1560px; /* 120px station + 1440px ruler */
     }
 
     .station-label-header {
@@ -445,7 +446,7 @@
         background: var(--input-bg);
         position: sticky;
         left: 0;
-        z-index: 120;
+        z-index: 210;
     }
 
     .timeline-ruler-wrapper {
@@ -470,7 +471,7 @@
 
     .schedule-grid-content {
         position: relative;
-        width: fit-content;
+        width: 1560px;
     }
 
     .station-row {
@@ -478,6 +479,7 @@
         height: 80px;
         border-bottom: 1px solid var(--divider-color);
         position: relative;
+        width: 1560px;
     }
 
     .station-label {
