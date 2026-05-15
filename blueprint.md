@@ -6,12 +6,12 @@
 This is a modern web application that provides fun utilities: a lotto number generator and a dinner menu recommender. It features a clean, responsive design with dark/light mode and multi-language support (English/Korean), fully optimized for SEO (Google/Naver) and GEO (Generative Engine Optimization).
 
 ### Usage
-*   **Update Schedule**: Run `node fetch_arirang.js` once a week to refresh the Arirang Radio schedule data from the Public Data Portal. This updates `arirang-schedule.json`.
+*   **Update Schedules**: Run `node fetch_schedules.js` to refresh the radio schedule data from various broadcaster APIs (MBC, KBS, SBS, Arirang). This updates `radio-schedules.json`.
 
 ## Features
-...
-*   **Arirang Radio Timeline**: A dedicated horizontal timeline at the bottom of the page showing the 24-hour schedule for Arirang Radio. It features a real-time "current time" marker and allows users to start the live stream by clicking on any program block.
 
+*   **Internalized Radio Schedules**: Integrated static schedule data for major Korean radio stations (YTN, EBS, CBS, KBS, SBS) derived from Namuwiki. This system automatically updates based on the current day of the week (Weekdays vs Weekends), ensuring reliable program information even if external APIs are unavailable.
+*   **Fallback Metadata System**: The "Now Playing" feature now prioritizes internalized schedule data, providing a more stable and faster user experience.
 *   **Lotto Generator**: Generates 6 unique random numbers (1-45) with a clean visual display and technical logic notes.
 *   **Dinner Recommender**: Provides random dinner suggestions with appetizing images.
 *   **Partnership Form**: A contact form for business inquiries using Formspree.
@@ -25,10 +25,14 @@ This is a modern web application that provides fun utilities: a lotto number gen
     *   Freshness signals (Last Updated date) and Author authority.
     *   `robots.txt` and `sitemap.xml` for crawler management.
 
-## Completed: Arirang Radio Integration & Horizontal Timeline
+## Completed Tasks
 
-Implemented a robust system for Arirang Radio schedule management:
-*   **Fetch Script**: `fetch_arirang.js` handles weekly API calls and data parsing.
-*   **Data Storage**: `arirang-schedule.json` provides fast, local access to the schedule.
-*   **Timeline UI**: A horizontal, scrollable 24-hour timeline with "LIVE" indicators and real-time markers.
-*   **Playback Integration**: Seamlessly plays Arirang Radio when programs are clicked.
+### Unified Radio Schedule Grid
+
+Implemented a robust multi-station schedule management system:
+*   **Integrated Fetch Script**: `fetch_schedules.js` aggregates data from MBC, SBS, KBS, and Arirang APIs into a single `radio-schedules.json`.
+*   **Two-Dimensional Grid UI**: A grid with station names pinned to the left and a 24-hour horizontal timeline.
+*   **Real-Time Synchronization**: A vertical marker showing current time across all stations.
+*   **Interactive Playback**: Clicking any program block triggers the corresponding station's live stream.
+*   **Stream URL Update**: Fixed Arirang Radio playback by updating to a working HLS stream URL (`akamaized.net`).
+*   **Metadata Optimization**: Implemented local schedule lookup for Arirang metadata to ensure "Now Playing" info is always available even if external APIs are down.

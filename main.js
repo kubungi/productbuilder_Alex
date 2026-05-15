@@ -1,3 +1,4 @@
+// Main JS for Lotto & Radio
 const lottoNumbersContainer = document.querySelector('.lotto-numbers');
 const generateBtn = document.querySelector('#generate-btn');
 const themeToggle = document.querySelector('#theme-toggle');
@@ -11,11 +12,10 @@ const currentStationDisplay = document.querySelector('#current-station');
 const playIcon = playPauseBtn ? playPauseBtn.querySelector('.play-icon') : null;
 const pauseIcon = playPauseBtn ? playPauseBtn.querySelector('.pause-icon') : null;
 
-// Arirang Schedule Variables
+// Unified Schedule Variables
 const timelineRuler = document.querySelector('#timeline-ruler');
-const timelineContent = document.querySelector('#timeline-content');
+const scheduleGridContent = document.querySelector('#schedule-grid-content');
 const currentTimeLine = document.querySelector('#current-time-line');
-const currentDayDisplay = document.querySelector('#current-day-display');
 
 const radioStations = [
     { id: 'mbcfm4u', name: { en: "MBC FM4U", ko: "MBC FM4U" }, type: 'mbc', channel: 'mfm' },
@@ -24,7 +24,7 @@ const radioStations = [
     { id: 'sbslove', name: { en: "SBS Love FM", ko: "SBS 러브FM" }, type: 'sbs', channel: 'lovefm' },
     { id: 'kbscool', name: { en: "KBS Cool FM", ko: "KBS 쿨FM" }, type: 'kbs', channel: '25' },
     { id: 'kbs1fm', name: { en: "KBS Classic FM", ko: "KBS 클래식FM" }, type: 'kbs', channel: '24' },
-    { id: 'arirang', name: { en: "Arirang Radio", ko: "아리랑 라디오" }, type: 'arirang', url: "https://amdlive-ch01.ctnd.com/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8" },
+    { id: 'arirang', name: { en: "Arirang Radio", ko: "아리랑 라디오" }, type: 'arirang', url: "https://amdlive-ch01-ctnd-com.akamaized.net/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8" },
     { id: 'cbs', name: { en: "CBS Music FM", ko: "CBS 음악FM" }, url: "https://m-aac.cbs.co.kr/cbs939/_definst_/cbs939.stream/playlist.m3u8" },
     { id: 'ebs', name: { en: "EBS FM", ko: "EBS FM" }, url: "https://ebsonair.ebs.co.kr/fmradiofamilypc/familypc1m/playlist.m3u8" },
     { id: 'ytn', name: { en: "YTN Radio", ko: "YTN 라디오" }, url: "https://radiolive.ytn.co.kr/radio/_definst_/20211118_fmlive/playlist.m3u8" }
@@ -63,7 +63,7 @@ const translations = {
         status_success: "Success! Your inquiry has been sent. 🚀",
         status_error: "Oops! There was a problem. Please try again.",
         status_conn_error: "Oops! There was a problem connecting to the server.",
-        last_updated: "Last updated: May 11, 2026",
+        last_updated: "Last updated: May 15, 2026",
         radio_heading: "Korean Internet Radio 📻",
         now_playing_label: "Now Playing:",
         select_station: "Select a station",
@@ -73,8 +73,8 @@ const translations = {
         "og:description": "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life.",
         "twitter:title": "Lotto Number Generator & Dinner Recommender",
         "twitter:description": "Generate random lotto numbers and get daily dinner recommendations. A fun and useful tool for your daily life.",
-        arirang_schedule_heading: "Arirang Radio Schedule 📻",
-        arirang_schedule_desc: "Click on any program to start listening live!",
+        unified_schedule_heading: "Unified Radio Schedule 📻",
+        unified_schedule_desc: "Click on any program to start listening live!",
         today_schedule: "Today's Schedule",
         loading_schedule: "Loading schedule...",
         error_schedule: "Failed to load schedule."
@@ -104,7 +104,7 @@ const translations = {
         status_success: "성공! 문의가 전송되었습니다. 🚀",
         status_error: "오류가 발생했습니다. 다시 시도해주세요.",
         status_conn_error: "서버 연결에 문제가 발생했습니다.",
-        last_updated: "최근 업데이트: 2026년 5월 11일",
+        last_updated: "최근 업데이트: 2026년 5월 15일",
         radio_heading: "한국 인터넷 라디오 📻",
         now_playing_label: "현재 방송:",
         select_station: "방송국을 선택해주세요",
@@ -114,8 +114,8 @@ const translations = {
         "og:description": "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다.",
         "twitter:title": "로또 번호 생성기 & 오늘 뭐 먹지",
         "twitter:description": "랜덤 로또 번호 생성과 매일 저녁 메뉴 추천을 한 번에! 일상에 재미와 유용함을 더하는 도구입니다.",
-        arirang_schedule_heading: "아리랑 라디오 편성표 📻",
-        arirang_schedule_desc: "편성표를 클릭하면 실시간 방송이 재생됩니다!",
+        unified_schedule_heading: "통합 라디오 편성표 📻",
+        unified_schedule_desc: "편성표를 클릭하면 해당 방송이 즉시 재생됩니다!",
         today_schedule: "오늘의 편성표",
         loading_schedule: "편성표를 불러오는 중...",
         error_schedule: "편성표를 불러오지 못했습니다."
@@ -324,23 +324,50 @@ function initStationGrid() {
 async function fetchNowPlaying(station) {
     let programTitle = "";
     try {
-        if (station.type === 'mbc') {
-            const response = await fetch(`https://control.imbc.com/Schedule/Radio?channel=${station.channel}`);
-            const data = await response.json();
-            const current = data.find(item => item.IsOnAirNow === 'Y');
-            programTitle = current ? current.Title : "";
-        } else if (station.type === 'sbs') {
-            const response = await fetch(`https://gorealraapi.sbs.co.kr/v1/program/nowplaying?channel=${station.channel}`);
-            const data = await response.json();
-            programTitle = data.data && data.data.title ? data.data.title : "";
-        } else if (station.type === 'kbs') {
-            const response = await fetch(`https://api.kbs.co.kr/v1/radio/nowplaying?channel_code=${station.channel}`);
-            const data = await response.json();
-            programTitle = data.program_title || (data.data && data.program_title) || "";
-        } else if (station.type === 'arirang') {
-            const response = await fetch(`https://www.arirang.com/radio/getNowPlaying.asp`);
-            const data = await response.json();
-            programTitle = data.Title || "";
+        // Try static schedule first for certain stations or as fallback
+        const staticData = await fetchStaticSchedules();
+        if (staticData[station.id]) {
+            const now = new Date();
+            const day = now.getDay();
+            const hours = now.getHours() + now.getMinutes() / 60;
+            
+            let dailySchedule = [];
+            const sched = staticData[station.id];
+            if (sched.default) dailySchedule = sched.default;
+            else if (day === 0 && sched.sunday) dailySchedule = sched.sunday;
+            else if (day === 6 && sched.saturday) dailySchedule = sched.saturday;
+            else if (day >= 1 && day <= 5 && sched.weekdays) dailySchedule = sched.weekdays;
+            else if (sched.weekends && (day === 0 || day === 6)) dailySchedule = sched.weekends;
+
+            const current = dailySchedule.find(prog => hours >= prog.start && hours < prog.end);
+            if (current) programTitle = current.name;
+        }
+
+        // If no static program found or we want live API data, try APIs
+        if (!programTitle) {
+            if (station.type === 'mbc') {
+                const response = await fetch(`https://control.imbc.com/Schedule/Radio?channel=${station.channel}`);
+                const data = await response.json();
+                const current = data.find(item => item.IsOnAirNow === 'Y');
+                programTitle = current ? current.Title : "";
+            } else if (station.type === 'sbs') {
+                const response = await fetch(`https://gorealraapi.sbs.co.kr/v1/program/nowplaying?channel=${station.channel}`);
+                const data = await response.json();
+                programTitle = data.data && data.data.title ? data.data.title : "";
+            } else if (station.type === 'kbs') {
+                const response = await fetch(`https://api.kbs.co.kr/v1/radio/nowplaying?channel_code=${station.channel}`);
+                const data = await response.json();
+                programTitle = data.program_title || (data.data && data.program_title) || "";
+            } else if (station.type === 'arirang') {
+                const schedule = await fetchArirangSchedule();
+                if (schedule) {
+                    const now = new Date();
+                    const today = now.getDay();
+                    const hours = now.getHours() + now.getMinutes() / 60;
+                    const current = schedule.find(prog => prog.days.includes(today) && hours >= prog.start && hours < prog.end);
+                    programTitle = current ? current.name : "";
+                }
+            }
         }
 
         if (currentStationDisplay) {
@@ -477,17 +504,60 @@ if (volumeSlider) {
     });
 }
 
-// Arirang Schedule Logic
-const ARIRANG_STREAM_URL = "https://amdlive-ch01.ctnd.com/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8";
+// Unified Schedule Logic
+let scheduleDataCache = null;
+let staticSchedulesCache = null;
 
-async function fetchArirangSchedule() {
+async function fetchStaticSchedules() {
+    if (staticSchedulesCache) return staticSchedulesCache;
     try {
-        const response = await fetch('./arirang-schedule.json');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        return data;
+        const response = await fetch('./static-schedules.json');
+        if (!response.ok) throw new Error('Static schedule not found');
+        staticSchedulesCache = await response.json();
+        return staticSchedulesCache;
     } catch (err) {
-        console.error('Failed to fetch Arirang schedule:', err);
+        console.error('Failed to fetch static schedules:', err);
+        return {};
+    }
+}
+
+async function fetchAllSchedules() {
+    if (scheduleDataCache) return scheduleDataCache;
+    try {
+        const [dynamicRes, staticData] = await Promise.all([
+            fetch('./radio-schedules.json').then(res => res.ok ? res.json() : {}),
+            fetchStaticSchedules()
+        ]);
+
+        const merged = { ...dynamicRes };
+        const now = new Date();
+        const day = now.getDay(); // 0: Sun, 1: Mon, ..., 6: Sat
+
+        // Process static schedules based on current day
+        for (const [id, schedule] of Object.entries(staticData)) {
+            let dailySchedule = [];
+            if (schedule.default) {
+                dailySchedule = schedule.default;
+            } else if (day === 0 && schedule.sunday) {
+                dailySchedule = schedule.sunday;
+            } else if (day === 6 && schedule.saturday) {
+                dailySchedule = schedule.saturday;
+            } else if (day >= 1 && day <= 5 && schedule.weekdays) {
+                dailySchedule = schedule.weekdays;
+            } else if (schedule.weekends && (day === 0 || day === 6)) {
+                dailySchedule = schedule.weekends;
+            }
+            
+            // Prefer static schedule if available or if dynamic is empty
+            if (dailySchedule.length > 0) {
+                merged[id] = dailySchedule;
+            }
+        }
+
+        scheduleDataCache = merged;
+        return scheduleDataCache;
+    } catch (err) {
+        console.error('Failed to fetch schedules:', err);
         return null;
     }
 }
@@ -503,59 +573,62 @@ function initTimeline() {
     }
 }
 
-async function renderArirangSchedule() {
-    if (!timelineContent) return;
-    
+async function renderUnifiedSchedule() {
+    if (!scheduleGridContent) return;
+
     initTimeline();
-    const allPrograms = await fetchArirangSchedule();
+    const allSchedules = await fetchAllSchedules();
+    if (!allSchedules) return;
 
-    if (!allPrograms) {
-        if (currentDayDisplay) {
-            currentDayDisplay.textContent = translations[currentLang].error_schedule;
-        }
-        return;
-    }
+    // Clear content but keep time line marker
+    const rows = scheduleGridContent.querySelectorAll('.station-row');
+    rows.forEach(r => r.remove());
 
-    const today = new Date().getDay(); // 0 (Sun) to 6 (Sat)
-    const programs = allPrograms.filter(prog => prog.days.includes(today));
+    // Only render stations that have schedule data
+    const stationsWithSchedule = radioStations.filter(s => allSchedules[s.id] && allSchedules[s.id].length > 0);
 
-    // Clear existing programs but keep the time line
-    const existingBlocks = timelineContent.querySelectorAll('.program-block');
-    existingBlocks.forEach(b => b.remove());
+    stationsWithSchedule.forEach(station => {
+        const row = document.createElement('div');
+        row.classList.add('station-row');
 
-    programs.forEach(prog => {
-        const block = document.createElement('div');
-        block.classList.add('program-block');
-        const startX = prog.start * 60; // 60px per hour
-        const width = (prog.end - prog.start) * 60;
-        
-        block.style.left = `${startX}px`;
-        block.style.width = `${width}px`;
-        block.innerHTML = `
-            <span class="program-name">${prog.name}</span>
-            <span class="program-time">${formatTime(prog.start)} - ${formatTime(prog.end)}</span>
-        `;
-        
-        block.title = prog.overview;
-        
-        block.addEventListener('click', () => {
-            const arirangStation = radioStations.find(s => s.id === 'arirang');
-            if (arirangStation) {
-                // Force the correct stream URL for Arirang
-                arirangStation.url = ARIRANG_STREAM_URL;
-                playStation(arirangStation);
-            }
+        const label = document.createElement('div');
+        label.classList.add('station-label');
+        label.textContent = station.name[currentLang];
+        row.appendChild(label);
+
+        const programsContainer = document.createElement('div');
+        programsContainer.classList.add('programs-container');
+
+        const programs = allSchedules[station.id];
+        programs.forEach(prog => {
+            const block = document.createElement('div');
+            block.classList.add('program-block');
+
+            // Handle programs that cross midnight if needed (though API usually splits them)
+            const startX = prog.start * 60; 
+            const width = (prog.end - prog.start) * 60;
+
+            block.style.left = `${startX}px`;
+            block.style.width = `${width}px`;
+            block.innerHTML = `
+                <span class="program-name">${prog.name}</span>
+                <span class="program-time">${formatTime(prog.start)} - ${formatTime(prog.end)}</span>
+            `;
+
+            block.addEventListener('click', () => playStation(station));
+            programsContainer.appendChild(block);
         });
 
-        timelineContent.appendChild(block);
+        row.appendChild(programsContainer);
+        scheduleGridContent.appendChild(row);
     });
 
-    updateCurrentTimeIndicator(true); // true to scroll
+    updateCurrentTimeIndicator(true);
 }
 
 function formatTime(decimalHour) {
-    const h = Math.floor(decimalHour);
-    const m = Math.round((decimalHour - h) * 60);
+    const h = Math.floor(decimalHour) % 24;
+    const m = Math.round((decimalHour - Math.floor(decimalHour)) * 60);
     return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
 }
 
@@ -565,13 +638,13 @@ function updateCurrentTimeIndicator(shouldScroll = false) {
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
-    
-    const decimalTime = hours + minutes/60 + seconds/3600;
-    const xPos = decimalTime * 60;
-    currentTimeLine.style.left = `${xPos}px`;
 
-    // Highlight current program
-    const programs = timelineContent.querySelectorAll('.program-block');
+    const decimalTime = hours + minutes / 60 + seconds / 3600;
+    const xPos = decimalTime * 60;
+    currentTimeLine.style.left = `${xPos + 120}px`; // Offset by station-label width (120px)
+
+    // Highlight current programs across all rows
+    const programs = document.querySelectorAll('.program-block');
     programs.forEach(block => {
         const left = parseFloat(block.style.left);
         const width = parseFloat(block.style.width);
@@ -583,23 +656,30 @@ function updateCurrentTimeIndicator(shouldScroll = false) {
     });
 
     if (shouldScroll) {
-        const wrapper = document.querySelector('.timeline-wrapper');
+        const wrapper = document.querySelector('.schedule-grid-content');
         if (wrapper) {
-            const scrollPos = xPos - wrapper.offsetWidth / 2;
+            const scrollPos = xPos - (wrapper.offsetWidth - 120) / 2;
             wrapper.scrollLeft = scrollPos;
         }
     }
 }
-
 // Initialize Everything
 setTheme(getPreferredTheme());
 updateLanguage();
 handleGenerate();
 initStationGrid();
-renderArirangSchedule();
+renderUnifiedSchedule();
 
 if (volumeSlider) {
     audio.volume = volumeSlider.value;
+}
+
+const refreshBtn = document.querySelector('#refresh-schedule');
+if (refreshBtn) {
+    refreshBtn.addEventListener('click', () => {
+        scheduleDataCache = null; // Clear cache
+        renderUnifiedSchedule();
+    });
 }
 
 themeToggle.addEventListener('click', () => {

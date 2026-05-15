@@ -1,0 +1,205 @@
+{
+  "arirang": [
+    {
+      "name": "#daily K",
+      "start": 9,
+      "end": 11
+    },
+    {
+      "name": "Culture Crunch",
+      "start": 11,
+      "end": 12
+    },
+    {
+      "name": "h[a:rt] attack",
+      "start": 14,
+      "end": 16
+    },
+    {
+      "name": "K-POPPIN'",
+      "start": 12,
+      "end": 14
+    },
+    {
+      "name": "THE ARCHIVE",
+      "start": 16,
+      "end": 18
+    },
+    {
+      "name": "The Kulture Inc.",
+      "start": 18,
+      "end": 20
+    },
+    {
+      "name": "WONDERS OF JEJU",
+      "start": 22,
+      "end": 24
+    },
+    {
+      "name": "GOOD MORNING SEOUL",
+      "start": 7,
+      "end": 9
+    }
+  ],
+  "mbcfm4u": [
+    {
+      "name": "여기는 MBC-FM4U",
+      "start": 5,
+      "end": 5.083333333333333
+    },
+    {
+      "name": "응답하라 20세기",
+      "start": 5.083333333333333,
+      "end": 6
+    },
+    {
+      "name": "세상을 여는 아침, 이영은입니다",
+      "start": 6,
+      "end": 7
+    },
+    {
+      "name": "굿모닝FM 테이입니다",
+      "start": 7,
+      "end": 9
+    },
+    {
+      "name": "오늘 아침 윤상입니다",
+      "start": 9,
+      "end": 11
+    },
+    {
+      "name": "안녕하세요 이문세입니다",
+      "start": 11,
+      "end": 12
+    },
+    {
+      "name": "정오의 희망곡 김신영입니다",
+      "start": 12,
+      "end": 14
+    },
+    {
+      "name": "두시의 데이트 안영미입니다",
+      "start": 14,
+      "end": 16
+    },
+    {
+      "name": "완벽한 하루 이상순입니다",
+      "start": 16,
+      "end": 18
+    },
+    {
+      "name": "배철수의 음악캠프",
+      "start": 18,
+      "end": 20
+    },
+    {
+      "name": "김이나의 별이 빛나는 밤에",
+      "start": 20,
+      "end": 22
+    },
+    {
+      "name": "친한친구 방송반",
+      "start": 22,
+      "end": 24
+    },
+    {
+      "name": "FM영화음악 김세윤입니다",
+      "start": 0,
+      "end": 1
+    },
+    {
+      "name": "아이돌 라디오 핫트랙",
+      "start": 1,
+      "end": 3
+    },
+    {
+      "name": "음악의 발견",
+      "start": 3,
+      "end": 5
+    }
+  ],
+  "mbcsfm": [
+    {
+      "name": "여기는 MBC-FM4U",
+      "start": 5,
+      "end": 5.083333333333333
+    },
+    {
+      "name": "응답하라 20세기",
+      "start": 5.083333333333333,
+      "end": 6
+    },
+    {
+      "name": "세상을 여는 아침, 이영은입니다",
+      "start": 6,
+      "end": 7
+    },
+    {
+      "name": "굿모닝FM 테이입니다",
+      "start": 7,
+      "end": 9
+    },
+    {
+      "name": "오늘 아침 윤상입니다",
+      "start": 9,
+      "end": 11
+    },
+    {
+      "name": "안녕하세요 이문세입니다",
+      "start": 11,
+      "end": 12
+    },
+    {
+      "name": "정오의 희망곡 김신영입니다",
+      "start": 12,
+      "end": 14
+    },
+    {
+      "name": "두시의 데이트 안영미입니다",
+      "start": 14,
+      "end": 16
+    },
+    {
+      "name": "완벽한 하루 이상순입니다",
+      "start": 16,
+      "end": 18
+    },
+    {
+      "name": "배철수의 음악캠프",
+      "start": 18,
+      "end": 20
+    },
+    {
+      "name": "김이나의 별이 빛나는 밤에",
+      "start": 20,
+      "end": 22
+    },
+    {
+      "name": "친한친구 방송반",
+      "start": 22,
+      "end": 24
+    },
+    {
+      "name": "FM영화음악 김세윤입니다",
+      "start": 0,
+      "end": 1
+    },
+    {
+      "name": "아이돌 라디오 핫트랙",
+      "start": 1,
+      "end": 3
+    },
+    {
+      "name": "음악의 발견",
+      "start": 3,
+      "end": 5
+    }
+  ],
+  "ebs": [],
+  "cbs": [],
+  "ytn": [],
+  "sbspower": [],
+  "sbslove": [],
+  "kbscool": [],
+  "kbs1fm": []
+}
