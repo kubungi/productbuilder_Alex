@@ -36,7 +36,7 @@ let metadataInterval = null;
 // Translations
 const translations = {
     en: {
-        page_title: "Lotto Number Generator & Dinner Recommender",
+        page_title: "Korean Internet Radio Streaming Service, Lotto Number Generator & Dinner Recommender",
         main_heading: "Lotto Number Generator",
         generate_btn: "Generate Numbers",
         lotto_logic: "Algorithm: 6 unique random integers (1-45).",
@@ -77,7 +77,7 @@ const translations = {
         error_schedule: "Failed to load schedule."
     },
     ko: {
-        page_title: "로또 번호 생성기 & 오늘 뭐 먹지",
+        page_title: "한국 인터넷 라디오, 로또 번호 생성기 & 오늘 뭐 먹지",
         main_heading: "로또 번호 생성기",
         generate_btn: "번호 생성하기",
         lotto_logic: "알고리즘: 1~45 사이의 6개 중복 없는 난수 생성.",
@@ -229,12 +229,12 @@ const dinnerMenus = [
     { name: { en: "Tacos 🌮", ko: "타코 🌮" }, image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Steak 🥩", ko: "스테이크 🥩" }, image: "https://images.unsplash.com/photo-1546241072-48010ad28c2c?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Ramen 🍜", ko: "라멘 🍜" }, image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Bulgogi 🥢", ko: "불고기 🥢" }, image: "https://images.unsplash.com/photo-1620023640245-565452ef61d8?q=80&w=800&auto=format&fit=crop" },
+    { name: { en: "Bulgogi 🥢", ko: "불고기 🥢" }, image: "https://images.unsplash.com/photo-1616031037011-087000171abe?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Salad 🥗", ko: "샐러드 🥗" }, image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Burgers 🍔", ko: "햄버거 🍔" }, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Jajangmyeon 🍜", ko: "짜장면 🍜" }, image: "https://images.unsplash.com/photo-1623341214825-9f4f963727da?q=80&w=800&auto=format&fit=crop" },
     { name: { en: "Samgyeopsal 🥓", ko: "삼겹살 🥓" }, image: "https://images.unsplash.com/photo-1632761352433-255d654593f6?q=80&w=800&auto=format&fit=crop" },
-    { name: { en: "Donkatsu 🍛", ko: "돈까스 🍛" }, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop" }
+    { name: { en: "Donkatsu 🍛", ko: "돈까스 🍛" }, image: "https://images.unsplash.com/photo-1596450514735-3164478479e0?q=80&w=800&auto=format&fit=crop" }
 ];
 
 function recommendDinner() {
